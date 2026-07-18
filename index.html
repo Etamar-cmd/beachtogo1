@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BeachToGo">
+<meta name="theme-color" content="#0a1628">
+<title>BeachToGo 🏖️</title>
+<link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+
+
+
+
+
+  /* RTL SCROLL FIX - show first item on right */
+  #cl-tabs {
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    padding-bottom: 8px !important;
+    gap: 7px !important;
+  }
+  #cl-tabs .tab-btn {
+    padding: 7px 12px !important;
+    font-size: .8rem !important;
+    flex-shrink: 0 !important;
+  }
+  .tab-bar, .area-bar, .kids-bar {
+    direction: rtl !important;
+    justify-content: flex-start !important;
+    padding-right: 14px !important;
+    padding-left: 14px !important;
+  }
+  .tab-bar .tab-btn,
+  .area-bar .area-btn,
+  .kids-bar .kid-chip,
+  .kids-bar .add-kid-btn {
+    direction: rtl !important;
+    flex-shrink: 0 !important;
+  }
+
+
+
+
+
+  .share-to-btn{padding:14px;border:none;border-radius:14px;font-family:'Secular One',sans-serif;font-size:.9rem;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .2s}
+  .share-to-btn:active{transform:scale(.95)}
+  .share-to-btn.fb{background:linear-gradient(135deg,#1877f2,#0d5bd8);color:#fff}
+  .share-to-btn.ig{background:linear-gradient(135deg,#e1306c,#833ab4);color:#fff}
+  .share-to-btn.tt{background:linear-gradient(135deg,#010101,#69c9d0);color:#fff}
+  .share-to-btn.wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+  .pro-edit-btn{padding:13px;background:rgba(244,165,34,.15);border:1px solid rgba(244,165,34,.3);border-radius:12px;color:#f4a522;font-family:'Assistant',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer}
+  .pro-edit-btn:active{background:rgba(244,165,34,.3)}
+  .edit-thumb{width:80px;height:80px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,.15)}
+
+  .music-card{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:13px;margin-bottom:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .music-card:active{background:rgba(0,188,212,.1);border-color:#00bcd4}
+  .music-card-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+  .music-card-info{flex:1;min-width:0}
+  .music-card-title{font-family:'Secular One',sans-serif;font-size:.95rem}
+  .music-card-sub{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px}
+  .music-play{width:36px;height:36px;border-radius:50%;background:rgba(0,188,212,.2);border:1px solid rgba(0,188,212,.4);display:flex;align-items:center;justify-content:center;color:#00bcd4;font-size:1rem;flex-shrink:0}
+
+  /* OVERFLOW FIX */
+  html, body, #app, .screen, .screen * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #app { overflow-x: hidden !important; }
+  .screen { overflow-x: hidden !important; }
+  .screen-body { overflow-x: hidden !important; }
+  .tab-bar, .area-bar, .kids-bar {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    flex-wrap: nowrap !important;
+    max-width: 100% !important;
+  }
+  .tab-btn, .area-btn, .kid-chip, .add-kid-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  .rest-quick, .w-grid, .em-grid, .card-grid, .pk-grid {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  .spf-btns, .tl-yn-btns, .biz-btns, .nav-btns, .rest-nav {
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:'Assistant',sans-serif;background:#060e1a;color:#fff;height:100%;display:flex;justify-content:center;align-items:flex-start;overflow:hidden}
+#app{width:100%;max-width:390px;height:100dvh;height:100vh;display:flex;flex-direction:column;overflow:hidden;position:relative;background:linear-gradient(160deg,#0a1628 0%,#0d2d50 50%,#0a1628 100%);box-sizing:border-box}
+.screen{display:none;flex-direction:column;width:100%;height:100%;overflow:hidden;box-sizing:border-box}
+.screen.active{display:flex}
+.screen-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;width:100%}
+.top-bar{display:flex;align-items:center;gap:12px;padding:14px 16px 10px;padding-top:calc(14px + env(safe-area-inset-top,0px));flex-shrink:0;width:100%}
+.back-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.back-btn:active{background:rgba(255,255,255,0.22)}
+.top-bar-info{flex:1;min-width:0}
+.top-bar-title{font-family:'Secular One',sans-serif;font-size:1.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-bar-sub{font-size:0.75rem;color:rgba(255,255,255,0.45);margin-top:1px}
+.bottom-nav{display:flex;justify-content:space-around;padding:10px 0;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));background:rgba(8,20,40,0.97);border-top:1px solid rgba(79,195,247,0.15);flex-shrink:0;width:100%}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;opacity:.5;-webkit-tap-highlight-color:transparent;padding:4px 12px}
+.nav-item.active{opacity:1}
+.nav-item .ni{font-size:1.4rem}
+.nav-item .nl{font-size:.62rem;color:rgba(255,255,255,.8);font-weight:700}
+.nav-item.active .nl{color:#f4a522}
+.home-header{text-align:center;padding:20px 16px 12px;padding-top:calc(20px + env(safe-area-inset-top,0px));flex-shrink:0}
+.home-sun{width:52px;height:52px;background:radial-gradient(circle at 35% 35%,#f9a825,#e65100);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 24px rgba(249,168,37,.55)}
+.home-title{font-family:'Secular One',sans-serif;font-size:1.6rem}
+.home-sub{font-size:.82rem;color:rgba(255,255,255,.5);margin-top:4px}
+.home-sub2{font-size:.72rem;color:rgba(255,255,255,.3);margin-top:2px}
+.tip-bar{margin:0 14px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(79,195,247,.2);border-radius:12px;padding:9px 12px;display:flex;gap:8px;align-items:flex-start;flex-shrink:0}
+.tip-bar .ti{font-size:1rem;flex-shrink:0}
+.tip-bar .tt{font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.4}
+.tip-bar .tt strong{color:#f9a825}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 14px 14px}
+.card{border-radius:14px;overflow:hidden;position:relative;height:100px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.card:active{transform:scale(.95)}
+.card.wide{grid-column:span 2;height:90px}
+.card img{width:100%;height:100%;object-fit:cover;display:block}
+.card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.1) 60%,transparent 100%)}
+.card-info{position:absolute;bottom:0;left:0;right:0;padding:7px 9px}
+.card-em{font-size:1.2rem;display:block;margin-bottom:1px}
+.card-lbl{font-size:.88rem;font-weight:800;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.9);line-height:1.3}
+.card.wide .card-lbl{font-size:.95rem}
+.card-badge{position:absolute;top:7px;left:7px;z-index:2;font-size:.62rem;font-weight:800;padding:2px 6px;border-radius:8px}
+.card-badge.red{background:#e74c3c;color:#fff}
+.sponsor-card{background:linear-gradient(135deg,#f9a825,#ff6f00);height:100px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.sponsor-card:active{transform:scale(.95)}
+.sp-icon{font-size:1.8rem}
+.sp-title{font-family:'Secular One',sans-serif;font-size:.88rem;color:#fff;margin-top:4px}
+.sp-sub{font-size:.68rem;color:rgba(255,255,255,.8);margin-top:2px}
+.admin-card{height:100px;border-radius:14px;background:linear-gradient(135deg,rgba(26,35,126,.95),rgba(10,39,68,.98));border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.admin-card:active{transform:scale(.95)}
+.section-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:15px;margin-bottom:12px}
+.section-title{font-family:'Secular One',sans-serif;font-size:.92rem;color:#f4a522;margin-bottom:11px}
+.tab-bar{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 14px 12px;flex-shrink:0;width:100%;box-sizing:border-box}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;padding:8px 16px;border-radius:20px;font-size:.82rem;font-weight:700;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.tab-btn.active{background:#f4a522;border-color:#f4a522;color:#000}
+.field-input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:13px 15px;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;outline:none;transition:border-color .2s;margin-bottom:10px}
+.field-input:focus{border-color:#00bcd4}
+.field-select{width:100%;background:#0d2a4a;border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:13px 15px;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;outline:none;margin-bottom:10px;appearance:none}
+.btn-primary{width:100%;padding:15px;background:linear-gradient(135deg,#00bcd4,#0097a7);border:none;border-radius:14px;color:#fff;font-family:'Secular One',sans-serif;font-size:.95rem;cursor:pointer;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 16px rgba(0,188,212,.3);margin-top:4px}
+.btn-primary:active{opacity:.85;transform:scale(.98)}
+.btn-secondary{width:100%;padding:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;color:rgba(255,255,255,.7);font-family:'Assistant',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-top:8px}
+.info-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem;min-height:44px}
+.info-row:last-child{border-bottom:none}
+.info-row .lbl{color:rgba(255,255,255,.4);font-size:.78rem;min-width:70px}
+.info-row .val{color:rgba(255,255,255,.85);flex:1}
+.empty-state{text-align:center;padding:36px 20px;color:rgba(255,255,255,.3);font-size:.85rem}
+.empty-state .es-icon{font-size:2.8rem;margin-bottom:10px}
+.progress-bar-wrap{padding:0 16px 12px;flex-shrink:0}
+.progress-bg{height:6px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00bcd4,#2ecc71);border-radius:10px;transition:width .5s}
+.progress-txt{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:5px;direction:ltr;text-align:left}
+.add-row{display:flex;gap:8px;padding:0 14px 12px;flex-shrink:0}
+.add-row input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:12px 14px;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;outline:none}
+.add-row input:focus{border-color:#00bcd4}
+.add-row button{width:46px;height:46px;background:#00bcd4;border:none;border-radius:12px;color:#fff;font-size:1.4rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cat-block{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;margin:0 14px 10px}
+.cat-head{display:flex;align-items:center;gap:10px;padding:13px 15px;cursor:pointer;min-height:52px}
+.cat-head:active{background:rgba(255,255,255,.04)}
+.cat-em{font-size:1.15rem}
+.cat-nm{flex:1;font-weight:800;font-size:.92rem}
+.cat-cnt{font-size:.7rem;color:rgba(255,255,255,.4);background:rgba(255,255,255,.08);padding:2px 8px;border-radius:10px}
+.cat-arr{font-size:.7rem;color:rgba(255,255,255,.35);transition:transform .25s}
+.cat-block.open .cat-arr{transform:rotate(180deg)}
+.cat-items{display:none}
+.cat-block.open .cat-items{display:block}
+.cl-item{display:flex;align-items:center;gap:12px;padding:13px 15px;border-top:1px solid rgba(255,255,255,.05);cursor:pointer;min-height:52px;-webkit-tap-highlight-color:transparent}
+.cl-item:active{background:rgba(255,255,255,.04)}
+.cl-check{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.85rem;transition:all .2s}
+.cl-check.done{background:#2ecc71;border-color:#2ecc71}
+.cl-check.irr{border-color:rgba(255,255,255,.1);background:transparent}
+.cl-em{font-size:1.1rem}
+.cl-nm{flex:1;font-size:.9rem;color:rgba(255,255,255,.85)}
+.cl-nm.done{text-decoration:line-through;color:rgba(255,255,255,.35)}
+.cl-nm.irr{color:rgba(255,255,255,.3);font-style:italic}
+.hint-bar{text-align:center;font-size:.68rem;color:rgba(255,255,255,.25);padding:0 14px 8px;flex-shrink:0}
+.irr-divider{padding:8px 15px 4px;font-size:.68rem;color:rgba(255,255,255,.25);letter-spacing:1px;border-top:1px solid rgba(255,255,255,.05)}
+.kids-bar{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 14px 10px;flex-shrink:0;width:100%;box-sizing:border-box}
+.kid-chip{display:flex;align-items:center;gap:6px;padding:7px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;font-size:.82rem;cursor:pointer;min-height:40px}
+.kid-chip.active{background:#00bcd4;border-color:#00bcd4;color:#000;font-weight:700}
+.kid-chip .kx{opacity:.6}
+.add-kid-btn{padding:7px 14px;background:rgba(46,204,113,.15);border:1px dashed rgba(46,204,113,.4);border-radius:20px;font-size:.82rem;color:#2ecc71;cursor:pointer;min-height:40px}
+.action-bar{display:flex;gap:10px;padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,rgba(8,20,40,1) 50%,transparent);flex-shrink:0}
+.area-bar{display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 14px 12px;flex-shrink:0;width:100%;box-sizing:border-box}
+.area-bar::-webkit-scrollbar{display:none}
+.area-btn{flex:0 0 auto;padding:7px 14px;border-radius:20px;font-size:.78rem;font-weight:700;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);cursor:pointer;white-space:nowrap}
+.area-btn.active{background:rgba(0,188,212,.25);border-color:#00bcd4;color:#00bcd4}
+.search-row{display:flex;gap:8px;padding:0 14px 10px;flex-shrink:0}
+.search-row input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:11px 14px;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;outline:none}
+.gps-btn{padding:11px 14px;background:rgba(0,188,212,.2);border:1px solid rgba(0,188,212,.4);border-radius:12px;color:#00bcd4;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Assistant',sans-serif}
+.beach-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;margin:0 14px 12px;cursor:pointer}
+.beach-card:active{opacity:.85}
+.beach-card img{width:100%;height:130px;object-fit:cover;display:block}
+.beach-card-body{padding:12px 14px}
+.beach-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.beach-card-name{font-family:'Secular One',sans-serif;font-size:.95rem}
+.beach-card-area{font-size:.68rem;color:rgba(255,255,255,.4);background:rgba(255,255,255,.08);padding:3px 8px;border-radius:10px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{font-size:.7rem;padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.55)}
+.tag.green{background:rgba(46,204,113,.15);color:#2ecc71}
+.tag.blue{background:rgba(0,188,212,.15);color:#00bcd4}
+.tag.gold{background:rgba(244,165,34,.15);color:#f4a522}
+.tag.red{background:rgba(231,76,60,.15);color:#e74c3c}
+.nav-btns{display:flex;gap:8px}
+.nav-btn{flex:1;padding:9px;border-radius:11px;border:none;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;display:block;min-height:40px;line-height:22px}
+.nav-btn.waze{background:rgba(0,188,212,.2);color:#00bcd4;border:1px solid rgba(0,188,212,.3)}
+.nav-btn.google{background:rgba(244,165,34,.2);color:#f4a522;border:1px solid rgba(244,165,34,.3)}
+.nav-btn.cam{background:rgba(231,76,60,.2);color:#e74c3c;border:1px solid rgba(231,76,60,.3)}
+.weather-main{background:linear-gradient(135deg,rgba(0,188,212,.15),rgba(26,111,168,.1));border:1px solid rgba(0,188,212,.25);border-radius:18px;padding:20px;text-align:center;margin:0 14px 12px}
+.w-temp-row{display:flex;align-items:center;justify-content:center;gap:14px}
+.w-icon{font-size:3rem}
+.w-temp{font-family:'Secular One',sans-serif;font-size:3rem}
+.w-desc{font-size:.9rem;color:rgba(255,255,255,.65);margin-top:5px}
+.w-feel{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:3px}
+.w-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 14px 12px}
+.w-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 6px;text-align:center}
+.w-stat .wsi{font-size:1.2rem;margin-bottom:3px}
+.w-stat .wsv{font-family:'Secular One',sans-serif;font-size:1rem}
+.w-stat .wsl{font-size:.62rem;color:rgba(255,255,255,.4);margin-top:2px}
+.flag-card{display:flex;align-items:center;gap:14px;border-radius:16px;padding:14px;margin:0 14px 12px;border:1px solid}
+.flag-card.green{background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.3)}
+.flag-card.red{background:rgba(231,76,60,.1);border-color:rgba(231,76,60,.3)}
+.flag-card.black{background:rgba(0,0,0,.3);border-color:rgba(255,255,255,.15)}
+.flag-icon{font-size:2rem;flex-shrink:0}
+.flag-title{font-family:'Secular One',sans-serif;font-size:.92rem}
+.flag-desc{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:3px}
+.uv-card{margin:0 14px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px}
+.uv-head{display:flex;justify-content:space-between;align-items:center;font-family:'Secular One',sans-serif;font-size:.9rem;margin-bottom:10px}
+.uv-val{font-size:1.3rem;color:#f4a522}
+.uv-bar-bg{height:10px;border-radius:10px;background:linear-gradient(90deg,#2ecc71 0%,#f4d03f 25%,#f39c12 50%,#e74c3c 75%,#9b59b6 100%);overflow:hidden}
+.uv-bar-marker{width:3px;height:100%;background:#fff;box-shadow:0 0 6px #fff;transition:margin-right .4s}
+.uv-level{font-size:.82rem;color:rgba(255,255,255,.6);margin-top:7px;text-align:center;font-weight:700}
+.cream-wrap{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
+.cream-title{font-family:'Secular One',sans-serif;font-size:.85rem;color:#00bcd4;margin-bottom:9px}
+.spf-row{display:flex;align-items:center;gap:8px;margin:8px 0}
+.spf-mini{width:44px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);font-family:'Assistant',sans-serif;font-size:.82rem;cursor:pointer}
+.spf-mini.active{background:rgba(0,188,212,.25);color:#00bcd4;border-color:#00bcd4;font-weight:700}
+.cream-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.85rem}
+.cream-row:last-child{border-bottom:none}
+.cream-t{font-family:'Secular One',sans-serif;color:#f4a522;min-width:48px}
+.tl-page{display:none;padding:14px}
+.tl-page.active{display:block}
+.tl-q-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:22px 18px;text-align:center;margin-bottom:14px}
+.tl-q-em{font-size:2.8rem;margin-bottom:10px}
+.tl-q-title{font-family:'Secular One',sans-serif;font-size:1.15rem;margin-bottom:5px}
+.tl-q-sub{font-size:.78rem;color:rgba(255,255,255,.45)}
+.tl-big-btns{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.tl-big-btn{padding:16px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;color:#fff;font-family:'Assistant',sans-serif;font-size:.95rem;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent}
+.tl-big-btn:active{background:rgba(0,188,212,.2);border-color:#00bcd4}
+.tl-big-btn div{font-family:'Secular One',sans-serif;font-size:1rem;margin:5px 0 3px}
+.tl-big-btn span{font-size:.75rem;color:rgba(255,255,255,.45)}
+.tl-yn-btns{display:flex;flex-direction:column;gap:7px}
+.tl-yn{padding:12px 14px;min-height:46px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(255,255,255,.7);font-family:'Assistant',sans-serif;font-size:.88rem;cursor:pointer;text-align:right;-webkit-tap-highlight-color:transparent}
+.tl-yn.picked{background:rgba(0,188,212,.15);border-color:#00bcd4;color:#00bcd4;font-weight:700}
+.uv-btns{display:flex;gap:5px}
+.uv-btn{flex:1;padding:8px 3px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'Assistant',sans-serif;font-size:.7rem;cursor:pointer;text-align:center;line-height:1.4}
+.uv-btn span{font-size:.62rem;opacity:.7;display:block}
+.uv-btn.active{background:linear-gradient(135deg,#f9a825,#ff6f00);color:#fff;border-color:transparent;font-weight:700}
+.spf-btns{display:flex;gap:7px;flex-wrap:wrap}
+.spf-pick{padding:8px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'Assistant',sans-serif;font-size:.82rem;cursor:pointer}
+.spf-pick.active{background:rgba(0,188,212,.25);color:#00bcd4;border-color:#00bcd4;font-weight:700}
+.tl-step{display:flex;gap:12px;margin-bottom:4px}
+.tl-step-l{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.tl-ic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.tl-ic.blue{background:rgba(0,188,212,.2);border:2px solid rgba(0,188,212,.4)}
+.tl-ic.gold{background:rgba(244,165,34,.2);border:2px solid rgba(244,165,34,.4)}
+.tl-ic.green{background:rgba(46,204,113,.2);border:2px solid rgba(46,204,113,.4)}
+.tl-ic.red{background:rgba(231,76,60,.2);border:2px solid rgba(231,76,60,.4)}
+.tl-line{width:2px;flex:1;background:rgba(255,255,255,.08);margin:4px auto;min-height:14px}
+.tl-step-r{flex:1;padding-bottom:12px}
+.tl-time{font-family:'Secular One',sans-serif;font-size:1rem;cursor:pointer}
+.tl-lbl{font-size:.86rem;color:rgba(255,255,255,.7);margin-top:2px}
+.tl-note{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:4px;background:rgba(255,255,255,.04);border-radius:8px;padding:4px 8px}
+.tl-step.sdone .tl-lbl{text-decoration:line-through;opacity:.5}
+.tl-sum{background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);border-radius:14px;padding:14px;margin-bottom:14px}
+.tl-sum h3{font-family:'Secular One',sans-serif;font-size:1rem;color:#2ecc71;margin-bottom:5px}
+.tl-sum p{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.6}
+.late-btn{width:100%;padding:13px;margin-top:12px;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.4);border-radius:14px;color:#e74c3c;font-family:'Secular One',sans-serif;font-size:.9rem;cursor:pointer}
+.budget-fb{border-radius:14px;padding:14px;margin:0 0 12px;text-align:center;display:none}
+.budget-fb.under{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3)}
+.budget-fb.over{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3)}
+.budget-fb.exact{background:rgba(244,165,34,.12);border:1px solid rgba(244,165,34,.3)}
+.bf-em{font-size:1.8rem;margin-bottom:5px}
+.bf-title{font-family:'Secular One',sans-serif;font-size:1rem}
+.bf-sub{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:3px}
+.exp-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:13px;margin-bottom:8px;min-height:50px}
+.exp-cat{flex:1;font-size:.88rem}
+.exp-amt{font-family:'Secular One',sans-serif;font-size:.95rem;color:#f4a522}
+.exp-del{color:rgba(255,255,255,.3);cursor:pointer;font-size:1rem;padding:4px}
+.exp-total{background:rgba(0,188,212,.1);border:1px solid rgba(0,188,212,.25);border-radius:13px;padding:12px;text-align:center;font-family:'Secular One',sans-serif;font-size:1.1rem;margin-top:6px}
+.friend-chip{display:flex;align-items:center;gap:6px;padding:7px 12px;background:rgba(0,188,212,.15);border:1px solid rgba(0,188,212,.3);border-radius:20px;font-size:.82rem;cursor:pointer;min-height:40px}
+.friend-chip .fx{cursor:pointer;opacity:.6}
+.friend-exp-row{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:11px 13px;margin-bottom:8px}
+.fer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.fer-payer{font-weight:700;font-size:.85rem;color:#00bcd4}
+.fer-amt{font-family:'Secular One',sans-serif;color:#f4a522}
+.fer-cat{font-size:.78rem;color:rgba(255,255,255,.45)}
+.balance-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;min-height:50px}
+.bal-txt{flex:1;font-size:.88rem}
+.bal-amt{font-family:'Secular One',sans-serif;color:#e74c3c;font-size:.95rem}
+.bal-settle{background:rgba(46,204,113,.2);border:1px solid rgba(46,204,113,.4);color:#2ecc71;padding:6px 11px;border-radius:9px;font-size:.75rem;cursor:pointer;white-space:nowrap}
+.hist-day{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px}
+.hist-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hist-name{font-family:'Secular One',sans-serif;font-size:.9rem}
+.hist-total{color:#f4a522;font-family:'Secular One',sans-serif;font-size:1rem}
+.hist-detail{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6}
+.insight-card{background:rgba(244,165,34,.1);border:1px solid rgba(244,165,34,.25);border-radius:13px;padding:12px 14px;margin-bottom:10px;font-size:.82rem;color:rgba(255,255,255,.75)}
+.insight-card strong{color:#f4a522}
+.pk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+.pk-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px 12px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pk-card:active{transform:scale(.96);background:rgba(0,188,212,.1)}
+.pk-ic{font-size:2rem;margin-bottom:7px}
+.pk-tt{font-family:'Secular One',sans-serif;font-size:.88rem}
+.pk-sb{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:2px}
+.pk-em-banner{display:flex;align-items:center;gap:12px;background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);border-radius:14px;padding:13px 14px;margin:0 14px 14px;cursor:pointer}
+.safety-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin:0 14px 12px}
+.safety-card.urgent{border-color:rgba(231,76,60,.35);background:rgba(231,76,60,.06)}
+.sc-icon{font-size:1.6rem;margin-bottom:5px}
+.sc-title{font-family:'Secular One',sans-serif;font-size:.95rem;margin-bottom:10px}
+.sc-step{display:flex;gap:9px;font-size:.83rem;color:rgba(255,255,255,.75);margin-bottom:7px;line-height:1.5}
+.sc-step span{flex-shrink:0;font-weight:700;color:#f4a522;min-width:16px}
+.em-nums{display:flex;background:rgba(180,0,0,.1);border-top:1px solid rgba(231,76,60,.2);flex-shrink:0}
+.em-num-a{flex:1;padding:12px 4px;text-align:center;background:rgba(231,76,60,.2);border-left:1px solid rgba(231,76,60,.3);color:#fff;font-weight:800;font-size:.82rem;text-decoration:none}
+.em-num-a:first-child{border-left:none}
+.em-num-a.hot{background:rgba(231,76,60,.45)}
+.em-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 14px 14px}
+.em-card{border-radius:12px;padding:11px 5px;text-align:center;cursor:pointer;border:1px solid;-webkit-tap-highlight-color:transparent}
+.em-card:active{opacity:.75;transform:scale(.94)}
+.em-card.red{background:rgba(231,76,60,.12);border-color:rgba(231,76,60,.3)}
+.em-card.orange{background:rgba(244,165,34,.1);border-color:rgba(244,165,34,.25)}
+.em-card.blue{background:rgba(0,188,212,.1);border-color:rgba(0,188,212,.2)}
+.em-card-ic{font-size:1.4rem;margin-bottom:4px}
+.em-card-lbl{font-size:.62rem;font-weight:800;color:rgba(255,255,255,.82);line-height:1.3}
+.em-detail{margin:0 14px 12px;border-radius:16px;padding:15px;border:1px solid}
+.em-detail.red{background:rgba(231,76,60,.1);border-color:rgba(231,76,60,.35)}
+.em-detail.orange{background:rgba(244,165,34,.08);border-color:rgba(244,165,34,.3)}
+.em-detail.blue{background:rgba(0,188,212,.08);border-color:rgba(0,188,212,.25)}
+.em-d-title{font-family:'Secular One',sans-serif;font-size:1rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.em-d-step{display:flex;gap:9px;margin-bottom:9px;font-size:.85rem;color:rgba(255,255,255,.8);line-height:1.5;padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.05)}
+.em-d-step:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.em-d-n{width:22px;height:22px;border-radius:50%;background:rgba(244,165,34,.3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0;color:#f4a522}
+.hosp-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);min-height:44px}
+.hosp-row:last-child{border-bottom:none}
+.hosp-name{font-size:.85rem}
+.hosp-tel{color:#00bcd4;font-size:.8rem;font-weight:700;text-decoration:none}
+.biz-card{display:flex;gap:13px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(244,165,34,.2);border-radius:18px;padding:14px;margin:0 14px 13px;position:relative;overflow:hidden}
+.biz-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(to bottom,#f4a522,#1a6fa8)}
+.biz-img{width:68px;height:68px;border-radius:13px;object-fit:cover;flex-shrink:0;border:2px solid rgba(244,165,34,.3)}
+.biz-info{flex:1;min-width:0}
+.biz-name{font-family:'Secular One',sans-serif;font-size:.95rem;color:#f4a522;margin-bottom:4px}
+.biz-desc{font-size:.76rem;color:rgba(255,255,255,.6);line-height:1.5;margin-bottom:9px}
+.biz-btns{display:flex;gap:6px;flex-wrap:wrap}
+.biz-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:18px;font-size:.73rem;font-weight:700;text-decoration:none;min-height:34px;font-family:'Assistant',sans-serif}
+.biz-btn.ph{background:rgba(26,111,168,.3);color:#4fc3f7;border:1px solid rgba(79,195,247,.3)}
+.biz-btn.wa{background:rgba(37,211,102,.15);color:#25d366;border:1px solid rgba(37,211,102,.3)}
+.biz-btn.web{background:rgba(244,165,34,.15);color:#f4a522;border:1px solid rgba(244,165,34,.3)}
+.rest-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 12px;flex-shrink:0}
+.rest-q-btn{padding:11px 5px;border-radius:13px;text-align:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:.78rem;font-weight:700;text-decoration:none;display:block;font-family:'Assistant',sans-serif}
+.rest-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:15px;overflow:hidden;margin:0 14px 11px}
+.rest-card img{width:100%;height:110px;object-fit:cover;display:block}
+.rest-body{padding:11px 13px}
+.rest-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.rest-name{font-family:'Secular One',sans-serif;font-size:.9rem}
+.rest-rating{color:#f4a522;font-size:.78rem}
+.rest-nav{display:flex;gap:7px;margin-top:9px}
+.rest-nb{flex:1;padding:8px;border-radius:10px;text-align:center;font-size:.75rem;font-weight:700;text-decoration:none;border:none;cursor:pointer;font-family:'Assistant',sans-serif;min-height:38px;display:flex;align-items:center;justify-content:center}
+.rest-nb.nav{background:rgba(0,188,212,.2);color:#00bcd4;border:1px solid rgba(0,188,212,.3)}
+.rest-nb.exp{background:rgba(244,165,34,.2);color:#f4a522;border:1px solid rgba(244,165,34,.3)}
+.cond-btn{padding:8px 13px;border-radius:20px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);font-family:'Assistant',sans-serif;font-size:.83rem;cursor:pointer;min-height:38px}
+.cond-btn.active{background:rgba(0,188,212,.25);border-color:#00bcd4;color:#fff;font-weight:700}
+.comm-row{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;min-height:50px}
+.comm-row:last-child{border-bottom:none}
+.comm-row:active{opacity:.7}
+.comm-row-name{flex:1;font-size:.88rem}
+.comm-arr{color:rgba(255,255,255,.3)}
+.fun-item{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,.04);border-radius:13px;padding:12px 13px;margin-bottom:8px}
+.fun-ic{font-size:1.4rem;flex-shrink:0}
+.fun-title{font-weight:700;font-size:.88rem;margin-bottom:2px}
+.fun-desc{font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.4}
+.tip-main{background:linear-gradient(135deg,rgba(244,165,34,.15),rgba(0,188,212,.1));border:1px solid rgba(244,165,34,.3);border-radius:18px;padding:24px 18px;text-align:center;margin:0 14px 14px}
+.tip-em{font-size:2.8rem;margin-bottom:10px}
+.tip-txt{font-family:'Secular One',sans-serif;font-size:1rem;line-height:1.6;margin-bottom:7px}
+.tip-cat{font-size:.72rem;color:rgba(255,255,255,.4)}
+.tip-row{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.83rem;color:rgba(255,255,255,.7)}
+.tip-row:last-child{border-bottom:none}
+.tip-row span:first-child{font-size:1rem;flex-shrink:0}
+.share-row{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:15px;padding:15px 14px;margin:0 14px 10px;cursor:pointer;min-height:70px;-webkit-tap-highlight-color:transparent}
+.share-row:active{background:rgba(0,188,212,.1);border-color:#00bcd4}
+.share-ic{font-size:1.7rem}
+.share-info{flex:1}
+.share-title{font-family:'Secular One',sans-serif;font-size:.9rem}
+.share-sub{font-size:.73rem;color:rgba(255,255,255,.45);margin-top:2px}
+.share-arr{color:rgba(255,255,255,.3);font-size:1.1rem}
+.adm-sp-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);min-height:46px}
+.adm-sp-row:last-child{border-bottom:none}
+.adm-sp-name{flex:1;font-size:.88rem}
+.adm-sp-del{color:rgba(231,76,60,.6);cursor:pointer;font-size:1rem;padding:4px}
+.age-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin:0 14px 11px}
+.age-title{font-family:'Secular One',sans-serif;font-size:.92rem;color:#00bcd4;margin-bottom:9px}
+.age-list{padding-right:16px}
+.age-list li{font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:5px;line-height:1.5}
+.tip-list-item{display:flex;gap:11px;align-items:flex-start;background:rgba(255,255,255,.04);border-radius:13px;padding:12px 13px;margin:0 14px 8px;font-size:.84rem;color:rgba(255,255,255,.75)}
+.tip-list-item span{font-size:1.1rem;flex-shrink:0}
+.modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:#0d2a4a;border-radius:22px 22px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom,0px));width:100%;max-width:390px;transform:translateY(100%);transition:transform .32s cubic-bezier(.34,1.56,.64,1);border-top:1px solid rgba(255,255,255,.1)}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-title{font-family:'Secular One',sans-serif;font-size:1.1rem;margin-bottom:14px}
+.modal-input{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 14px;color:#fff;font-family:'Assistant',sans-serif;font-size:16px;outline:none;margin-bottom:10px}
+.modal-input:focus{border-color:#00bcd4}
+.modal-btns{display:flex;gap:9px}
+.mbtn{flex:1;padding:13px;border-radius:12px;border:none;font-family:'Assistant',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer}
+.mbtn.p{background:#00bcd4;color:#fff}
+.mbtn.s{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}
+.settle-method{width:100%;padding:13px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#fff;font-family:'Assistant',sans-serif;font-size:.9rem;cursor:pointer;text-align:right;margin-bottom:8px;min-height:48px}
+.settle-method:active{background:rgba(0,188,212,.2);border-color:#00bcd4}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HOME SCREEN -->
+<div class="screen active" id="s-home">
+  <div class="home-header">
+    <div class="home-sun">🌊</div>
+    <div class="home-title">BeachToGo 🏖️</div>
+    <div class="home-sub">האפליקציה שתגרום לך לגלוש מהספה לים</div>
+    <div class="home-sub2">מתכנן. מנווט. נהנה.</div>
+  </div>
+  <div class="tip-bar"><div class="ti">💡</div><div class="tt" id="home-tip"><strong>טיפ היום:</strong> מרחו קרם הגנה 20 דקות לפני היציאה!</div></div>
+  <div class="screen-body">
+    <div class="card-grid">
+      <div class="card" onclick="go('s-sponsors')" style="position:relative">
+        <img src="https://images.unsplash.com/photo-1560508180-03f285f67ded?w=400&q=75" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div class="card-ov"></div>
+        <div style="position:absolute;top:7px;right:8px;background:rgba(244,165,34,.9);border-radius:8px;padding:2px 7px;font-size:.6rem;font-weight:800;color:#000">⭐ ספונסר</div>
+        <div class="card-info"><span class="card-em">🤝</span><div class="card-lbl">חסויות</div></div>
+      </div>
+      <div class="card" onclick="go('s-checklist')"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">✅</span><div class="card-lbl">צ׳ק ליסט</div></div></div>
+      <div class="card wide" onclick="go('s-beaches')"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">🌊</span><div class="card-lbl">חופים ובילוי מים</div></div></div>
+      <div class="card" onclick="go('s-restaurants')"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">🍔</span><div class="card-lbl">מסעדות</div></div></div>
+      <div class="card" onclick="go('s-timeline')"><img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">⏰</span><div class="card-lbl">לוח זמנים</div></div></div>
+      <div class="card" onclick="go('s-beachfun')"><img src="https://images.unsplash.com/photo-1520942702018-0862200e6873?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">🎮</span><div class="card-lbl">בילוי בחוף</div></div></div>
+      <div class="card" onclick="go('s-parents')"><img src="https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">👨‍👩‍👧‍👦</span><div class="card-lbl">הורים וילדים</div></div></div>
+      <div class="card wide" onclick="go('s-expenses')"><img src="https://images.unsplash.com/photo-1521986329282-0436c1f1e212?w=800&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">💰</span><div class="card-lbl">מחשבון הוצאות</div></div></div>
+      <div class="card" onclick="go('s-community')"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">👥</span><div class="card-lbl">קהילה</div></div></div>
+      <div class="card" onclick="go('s-share')"><img src="https://images.unsplash.com/photo-1530053969600-caed2596d242?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">📲</span><div class="card-lbl">שיתוף</div></div></div>
+      <div class="card" onclick="go('s-tip')"><img src="https://images.unsplash.com/photo-1439130490301-25e322d88054?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">💡</span><div class="card-lbl">טיפ היום</div></div></div>
+      <div class="card" onclick="go('s-water')"><img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">💧</span><div class="card-lbl">מים מים בששון</div></div></div>
+      <!-- מוזיקה + קרדיט במקום עריכה -->
+      <div class="card" onclick="go('s-music')"><img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">🎵</span><div class="card-lbl">מוזיקה לים</div></div></div>
+      <!-- CREDIT במקום עריכה ושיתוף -->
+      <div class="card" style="background:linear-gradient(135deg,#0d2a4a,#1a4a6e);border:1px solid rgba(79,195,247,0.2);cursor:default">
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:10px 12px">
+          <div style="font-size:.6rem;color:rgba(255,255,255,.35);margin-bottom:4px">האפליקציה נבנתה ע"י</div>
+          <div style="font-family:'Secular One',sans-serif;font-size:.9rem;color:#4fc3f7;letter-spacing:.5px">@etamarAI</div>
+          <div style="font-size:.58rem;color:rgba(255,255,255,.3);margin-top:3px">מבית</div>
+          <div style="font-size:.72rem;color:#f4a522;font-weight:700">Rebuild Yourself</div>
+        </div>
+      </div>
+      <!-- עריכה ושיתוף - wide -->
+      <div class="card wide" onclick="go('s-edit')"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">🎬</span><div class="card-lbl">עריכה ושיתוף לרשתות</div></div></div>
+      <div class="card" onclick="go('s-weather')"><img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">☀️</span><div class="card-lbl">מזג אוויר</div></div></div>
+      <div class="card" onclick="go('s-parents')"><img src="https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=400&q=75" alt=""><div class="card-ov"></div><div class="card-info"><span class="card-em">👨‍👩‍👧‍👦</span><div class="card-lbl">הורים וילדים</div></div></div>
+      <div class="card wide" onclick="go('s-emergency')"><img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=75" alt=""><div class="card-ov"></div><div class="card-badge red">🔴 חשוב</div><div class="card-info"><span class="card-em">🚨</span><div class="card-lbl">חירום וביטחון</div></div></div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item active"><div class="ni">🏠</div><div class="nl">ראשי</div></div>
+    <div class="nav-item" onclick="go('s-beaches')"><div class="ni">🌊</div><div class="nl">חופים</div></div>
+    <div class="nav-item" onclick="go('s-weather')"><div class="ni">☀️</div><div class="nl">מזג אוויר</div></div>
+    <div class="nav-item" onclick="go('s-emergency')"><div class="ni">🚨</div><div class="nl">חירום</div></div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="screen" id="s-checklist">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">✅ צ׳ק ליסט לים</div><div class="top-bar-sub" id="cl-sub">טוען...</div></div></div>
+  <div class="progress-bar-wrap"><div class="progress-bg"><div class="progress-fill" id="cl-prog" style="width:0%"></div></div><div class="progress-txt" id="cl-prog-txt">0 / 0</div></div>
+  <div class="tab-bar" id="cl-tabs"></div>
+  <div class="kids-bar" id="cl-kids" style="display:none"></div>
+  <div class="add-row"><input id="cl-add-inp" placeholder="הוסף פריט..." type="text"><button onclick="clAddItem()">+</button></div>
+  <div class="hint-bar">לחיצה ארוכה / קליק ימני = לא רלוונטי 🚫</div>
+  <div class="screen-body" id="cl-list"></div>
+  <div class="action-bar">
+    <button class="btn-secondary" style="margin:0" onclick="clResetAll()">🔄 אפס הכל</button>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 20px;background:linear-gradient(135deg,#2ecc71,#27ae60);border-radius:14px;font-family:'Secular One',sans-serif;font-size:1rem;color:#fff;min-width:90px" id="cl-done-pill">✅ 0</div>
+  </div>
+</div>
+
+<!-- BEACHES -->
+<div class="screen" id="s-beaches">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🌊 חופים ובילוי מים</div><div class="top-bar-sub">בחר קטגוריה ואזור</div></div></div>
+  <div class="tab-bar" id="beach-cat-tabs"></div>
+  <div class="search-row"><button class="gps-btn" onclick="beachFindNearest()">📍 קרוב אליי</button><input id="beach-search" placeholder="חפש..." oninput="renderBeaches()"></div>
+  <div class="area-bar" id="beach-area-bar"></div>
+  <div class="screen-body" id="beach-list"></div>
+</div>
+
+
+
+
+<!-- EDIT & SHARE SCREEN -->
+<div class="screen" id="s-edit">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🎬 עריכה ושיתוף</div><div class="top-bar-sub">תמונות, טקסט ומוזיקה</div></div></div>
+  <div class="screen-body">
+    <div style="padding:14px">
+
+      <!-- Upload photos -->
+      <div class="section-card">
+        <div class="section-title">📸 בחר תמונות/סרטונים</div>
+        <input type="file" id="edit-files" accept="image/*,video/*" multiple onchange="editLoadFiles(this)" style="display:none">
+        <button class="btn-primary" onclick="document.getElementById('edit-files').click()" style="margin-bottom:10px">📂 בחר מהגלריה</button>
+        <div id="edit-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px"></div>
+      </div>
+
+      <!-- Caption -->
+      <div class="section-card">
+        <div class="section-title">✍️ כיתוב</div>
+        <textarea id="edit-caption" class="field-input" rows="3" placeholder="כתוב משהו על היום הזה... 🏖️" style="resize:none;height:90px"></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="caption-suggestions">
+          <button class="spf-pick" onclick="addCaption('יום ים מושלם! 🌊☀️')">🌊 ים מושלם</button>
+          <button class="spf-pick" onclick="addCaption('ויבס קיץ 😎🏖️')">😎 ויבס קיץ</button>
+          <button class="spf-pick" onclick="addCaption('חיים זה ים! 🐚🌅')">🐚 חיים זה ים</button>
+          <button class="spf-pick" onclick="addCaption('BeachToGo 🏖️ #ים #קיץ #חוף')">📌 האשטאג</button>
+        </div>
+      </div>
+
+      <!-- Music -->
+      <div class="section-card">
+        <div class="section-title">🎵 הוסף מוזיקה (אופציונלי)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="spf-pick" onclick="window.open('https://open.spotify.com','_blank')">🎧 Spotify</button>
+          <button class="spf-pick" onclick="window.open('https://www.youtube.com','_blank')">▶️ YouTube</button>
+          <button class="spf-pick" onclick="document.getElementById('edit-music').click()">📂 מהטלפון</button>
+        </div>
+        <input type="file" id="edit-music" accept="audio/*" style="display:none" onchange="editLoadMusic(this)">
+        <div id="edit-music-player" style="display:none;margin-top:10px">
+          <audio id="edit-audio" controls style="width:100%;border-radius:10px"></audio>
+        </div>
+      </div>
+
+      <!-- Share buttons -->
+      <div class="section-card">
+        <div class="section-title">📤 שתף</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button class="share-to-btn fb" onclick="shareToFB()">📘 פייסבוק</button>
+          <button class="share-to-btn ig" onclick="shareToIG()">📸 אינסטגרם</button>
+          <button class="share-to-btn tt" onclick="shareToTT()">🎵 טיקטוק</button>
+          <button class="share-to-btn wa" onclick="shareToWA()">📱 וואטסאפ</button>
+        </div>
+      </div>
+
+      <!-- Pro editing -->
+      <div class="section-card" style="border-color:rgba(244,165,34,.3);background:rgba(244,165,34,.05)">
+        <div class="section-title" style="color:#f4a522">✨ עריכה מקצועית</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:12px">לאפקטים, מעברים ועריכה מתקדמת — פתח אפליקציה מקצועית</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="pro-edit-btn" onclick="window.open('https://www.capcut.com','_blank')">🎬 CapCut</button>
+          <button class="pro-edit-btn" onclick="openInstagramReels()">📸 Instagram Reels</button>
+          <button class="pro-edit-btn" onclick="openTikTok()">🎵 TikTok</button>
+          <button class="pro-edit-btn" onclick="window.open('https://www.canva.com','_blank')">🎨 Canva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MUSIC SCREEN -->
+<div class="screen" id="s-music">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🎵 מוזיקה לים</div><div class="top-bar-sub">רדיו, YouTube, Spotify</div></div></div>
+  <div class="tab-bar" id="music-tabs"></div>
+  <div class="screen-body">
+
+    <!-- RADIO -->
+    <div id="music-radio">
+      <div style="padding:14px 14px 0;font-size:.78rem;color:rgba(255,255,255,.4)">לחץ לפתיחה בדפדפן</div>
+      <div style="padding:10px 14px 14px" id="radio-list">
+        <div class="music-card" onclick="window.open('https://glzweb.kansler.co.il/listen.pls','_blank')">
+          <div class="music-card-icon" style="background:linear-gradient(135deg,#e74c3c,#c0392b)">📻</div>
+          <div class="music-card-info"><div class="music-card-title">גלגלץ</div><div class="music-card-sub">הרדיו הפופולרי בישראל</div></div>
+          <div class="music-play">▶</div>
+        </div>
+        <div class="music-card" onclick="window.open('https://www.glz.co.il','_blank')">
+          <div class="music-card-icon" style="background:linear-gradient(135deg,#3498db,#2980b9)">📻</div>
+          <div class="music-card-info"><div class="music-card-title">גלי ישראל</div><div class="music-card-sub">רדיו צבאי</div></div>
+          <div class="music-play">▶</div>
+        </div>
+        <div class="music-card" onclick="window.open('https://www.fm100.co.il','_blank')">
+          <div class="music-card-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22)">📻</div>
+          <div class="music-card-info"><div class="music-card-title">100FM</div><div class="music-card-sub">רוק ישראלי</div></div>
+          <div class="music-play">▶</div>
+        </div>
+        <div class="music-card" onclick="window.open('https://www.radiob.co.il','_blank')">
+          <div class="music-card-icon" style="background:linear-gradient(135deg,#9b59b6,#8e44ad)">📻</div>
+          <div class="music-card-info"><div class="music-card-title">רדיו B</div><div class="music-card-sub">מזרחית ומיזוג</div></div>
+          <div class="music-play">▶</div>
+        </div>
+        <div class="music-card" onclick="window.open('https://www.88fm.co.il','_blank')">
+          <div class="music-card-icon" style="background:linear-gradient(135deg,#1abc9c,#16a085)">📻</div>
+          <div class="music-card-info"><div class="music-card-title">88FM</div><div class="music-card-sub">מוזיקה מגוונת</div></div>
+          <div class="music-play">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTUBE -->
+    <div id="music-youtube" style="display:none">
+      <div style="padding:10px 14px 0;font-size:.78rem;color:rgba(255,255,255,.4)">פלייליסטים ביוטיוב — לחץ לפתיחה</div>
+      <div style="padding:10px 14px 14px" id="yt-list"></div>
+      <div style="padding:0 14px 14px;font-size:.75rem;color:rgba(255,255,255,.3);text-align:center">ניתן לערוך את הפלייליסטים דרך ניהול (🔐)</div>
+    </div>
+
+    <!-- SPOTIFY -->
+    <div id="music-spotify" style="display:none">
+      <div style="padding:10px 14px 0;font-size:.78rem;color:rgba(255,255,255,.4)">פלייליסטים בספוטיפיי — לחץ לפתיחה</div>
+      <div style="padding:10px 14px 14px" id="sp-list"></div>
+    </div>
+
+    <!-- PHONE MUSIC -->
+    <div id="music-phone" style="display:none">
+      <div style="padding:14px;text-align:center">
+        <div style="font-size:3rem;margin-bottom:12px">📱</div>
+        <div style="font-family:'Secular One',sans-serif;font-size:1rem;margin-bottom:8px">מוזיקה מהטלפון</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:20px">הדפדפן אינו מאפשר גישה ישירה לנגן — לחץ לפתיחת נגן המוזיקה</div>
+        <button class="btn-primary" onclick="openPhoneMusic()">🎵 פתח נגן מוזיקה</button>
+        <div style="margin-top:20px">
+          <div style="font-size:.82rem;color:#f4a522;margin-bottom:10px;font-family:'Secular One',sans-serif">או בחר קובץ מוזיקה:</div>
+          <input type="file" id="music-file" accept="audio/*" onchange="playLocalMusic(this)" style="display:none">
+          <button class="btn-secondary" onclick="document.getElementById('music-file').click()">📂 בחר קובץ מהטלפון</button>
+          <div id="local-player" style="margin-top:14px;display:none">
+            <audio id="audio-player" controls style="width:100%;border-radius:12px"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WATER SCREEN (מים מים בששון) -->
+<div class="screen" id="s-water">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">💧 מים מים בששון</div><div class="top-bar-sub">מעיינות, פארקי מים ואטרקציות</div></div></div>
+  <div class="tab-bar" id="water-cat-tabs"></div>
+  <div class="screen-body" id="water-list"></div>
+</div>
+
+<!-- BEACH DETAIL -->
+<div class="screen" id="s-beach-detail">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-beaches')">→</button><div class="top-bar-info"><div class="top-bar-title" id="bd-title">חוף</div><div class="top-bar-sub" id="bd-sub"></div></div></div>
+  <div class="screen-body" id="bd-body"></div>
+</div>
+
+<!-- WEATHER -->
+<div class="screen" id="s-weather">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">☀️ מזג אוויר וים</div><div class="top-bar-sub" id="w-loc">בחר מיקום</div></div></div>
+  <div class="search-row" style="padding:0 14px 10px;flex-shrink:0">
+    <button class="gps-btn" onclick="wGetGPS()">📍 מיקומי</button>
+    <select id="w-beach-sel" onchange="wGetBeach()" style="flex:1;background:#0d2a4a;border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:11px 12px;color:#fff;font-size:16px;outline:none;font-family:'Assistant',sans-serif">
+      <option value="">בחר חוף...</option>
+      <option value="32.0853|34.7685|גורדון תל אביב">חוף גורדון</option>
+      <option value="32.1640|34.8000|הרצליה">חוף הרצליה</option>
+      <option value="33.0052|35.0949|נהריה">חוף נהריה</option>
+      <option value="32.8310|34.9883|בת גלים חיפה">חוף בת גלים</option>
+      <option value="29.5420|34.9480|אלמוג אילת">חוף אלמוג אילת</option>
+      <option value="32.7940|35.5310|טבריה כנרת">חוף טבריה</option>
+    </select>
+  </div>
+  <div class="screen-body">
+    <div id="w-loading" class="empty-state"><div class="es-icon">🌤️</div>בחר מיקום לראות מזג אוויר</div>
+    <div id="w-content" style="display:none">
+      <div class="weather-main"><div class="w-temp-row"><div class="w-icon" id="w-icon">☀️</div><div class="w-temp" id="w-temp">--°</div></div><div class="w-desc" id="w-desc">טוען...</div><div class="w-feel" id="w-feel"></div></div>
+      <div class="w-grid">
+        <div class="w-stat"><div class="wsi">🌊</div><div class="wsv" id="w-waves">--</div><div class="wsl">גלים</div></div>
+        <div class="w-stat"><div class="wsi">💧</div><div class="wsv" id="w-wtemp">--°</div><div class="wsl">מים</div></div>
+        <div class="w-stat"><div class="wsi">💨</div><div class="wsv" id="w-wind">--</div><div class="wsl">רוח</div></div>
+        <div class="w-stat"><div class="wsi">💦</div><div class="wsv" id="w-hum">--</div><div class="wsl">לחות</div></div>
+      </div>
+      <div class="flag-card green" id="w-flag"><div class="flag-icon" id="w-flag-ic">🟢</div><div><div class="flag-title" id="w-flag-title">בודק...</div><div class="flag-desc" id="w-flag-desc"></div></div></div>
+      <div class="uv-card">
+        <div class="uv-head"><span>☀️ מדד UV</span><span class="uv-val" id="w-uv">--</span></div>
+        <div class="uv-bar-bg"><div class="uv-bar-marker" id="w-uv-bar" style="margin-right:50%"></div></div>
+        <div class="uv-level" id="w-uv-level">--</div>
+        <div class="cream-wrap">
+          <div class="cream-title">🧴 מתי נכנסת למים?</div>
+          <input type="time" class="field-input" id="w-cream-time" onchange="wCalcCream()" style="margin-bottom:8px">
+          <div class="spf-row"><span style="font-size:.78rem;color:rgba(255,255,255,.5)">SPF:</span><button class="spf-mini active" onclick="wSetSPF(15,this)">15</button><button class="spf-mini" onclick="wSetSPF(30,this)">30</button><button class="spf-mini" onclick="wSetSPF(50,this)">50</button></div>
+          <div id="w-cream-sched"></div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:.68rem;color:rgba(255,255,255,.2);padding:0 14px 14px">נתונים: Open-Meteo & CurrentUVIndex.com</div>
+    </div>
+    <div id="w-error" class="empty-state" style="display:none"><div class="es-icon">⚠️</div>שגיאה בטעינת נתונים</div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="screen" id="s-timeline">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">⏰ מתכנן יום ים</div><div class="top-bar-sub" id="tl-sub">שלב 1 מתוך 3</div></div></div>
+  <div class="progress-bar-wrap"><div class="progress-bg"><div class="progress-fill" id="tl-prog" style="width:33%"></div></div></div>
+  <div class="screen-body">
+    <div class="tl-page active" id="tl-p1">
+      <div class="tl-q-card"><div class="tl-q-em">🤔</div><div class="tl-q-title">מה חשוב לך יותר?</div><div class="tl-q-sub">זה יקבע איך נחשב את הזמנים</div>
+        <div class="tl-big-btns">
+          <button class="tl-big-btn" onclick="tlSetPriority('arrive')">🏖️<div>שעת הגעה לחוף</div><span>נחשב אחורה — מתי לצאת</span></button>
+          <button class="tl-big-btn" onclick="tlSetPriority('home')">🏠<div>שעת חזרה הביתה</div><span>נחשב קדימה — כמה זמן בחוף</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="tl-page" id="tl-p2">
+      <div class="section-card"><div class="section-title">🏖️ לאיזה חוף?</div>
+        <select class="field-select" id="tl-beach">
+          <option value="">בחר חוף...</option>
+          <option value="32.0853|34.7685|גורדון תל אביב">חוף גורדון — תל אביב</option>
+          <option value="32.1020|34.7600|הצוק תל אביב">חוף הצוק — תל אביב</option>
+          <option value="32.1640|34.8000|הרצליה">חוף הרצליה</option>
+          <option value="32.3330|34.8540|נתניה">חוף נתניה</option>
+          <option value="33.0052|35.0949|נהריה">חוף נהריה</option>
+          <option value="32.8310|34.9883|בת גלים חיפה">חוף בת גלים — חיפה</option>
+          <option value="29.5420|34.9480|אלמוג אילת">חוף אלמוג — אילת</option>
+          <option value="32.7940|35.5310|טבריה כנרת">חוף טבריה — כנרת</option>
+        </select>
+      </div>
+      <div class="section-card"><div class="section-title">🚗 זמן נסיעה</div>
+        <button class="gps-btn" id="tl-gps-btn" onclick="tlCalcDrive()" style="width:100%;margin-bottom:10px;text-align:center">📍 חשב לפי מיקומי</button>
+        <div id="tl-drive-res" style="font-size:.82rem;color:#00bcd4;font-weight:700;margin-bottom:8px;min-height:20px"></div>
+        <input class="field-input" type="number" id="tl-drive" placeholder="או הזן דקות ידנית" min="0" max="600">
+      </div>
+      <div class="section-card"><div class="section-title" id="tl-time-lbl">⏰ מתי רוצה להיות בחוף?</div><input class="field-input" type="time" id="tl-target" value="12:00"></div>
+      <div class="section-card" id="tl-dur-sec" style="display:none"><div class="section-title">⏱️ כמה שעות בחוף?</div>
+        <div class="spf-btns" id="tl-dur-btns">
+          <button class="spf-pick" onclick="tlSetDur(2,this)">2 שעות</button>
+          <button class="spf-pick active" onclick="tlSetDur(3,this)">3 שעות</button>
+          <button class="spf-pick" onclick="tlSetDur(4,this)">4 שעות</button>
+          <button class="spf-pick" onclick="tlSetDur(5,this)">5 שעות</button>
+          <button class="spf-pick" onclick="tlSetDur(6,this)">6 שעות</button>
+        </div>
+      </div>
+      <div class="section-card"><div class="section-title">🏠 שעת חזרה הביתה</div><input class="field-input" type="time" id="tl-home" value="20:00"></div>
+      <button class="btn-primary" onclick="tlGoPage(3)">המשך ←</button>
+    </div>
+    <div class="tl-page" id="tl-p3">
+      <div class="section-card"><div class="section-title">👤 מי יוצא?</div>
+        <div class="spf-btns" id="tl-gender-btns">
+          <button class="spf-pick active" onclick="tlSetGender('mixed',this)">👨‍👩‍👧 מעורב</button>
+          <button class="spf-pick" onclick="tlSetGender('female',this)">👩 בנות</button>
+          <button class="spf-pick" onclick="tlSetGender('male',this)">👨 בנים</button>
+        </div>
+      </div>
+      <div id="tl-girls-sec">
+        <div class="section-card"><div class="section-title">🚿 מקלחת לפני?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('shower',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('shower',20,this)">קצרה (20 דק')</button><button class="tl-yn" onclick="tlPrep('shower',40,this)">מלאה (40 דק')</button></div></div>
+        <div class="section-card"><div class="section-title">💇 סידור שיער?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('hair',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('hair',15,this)">קצת (15 דק')</button><button class="tl-yn" onclick="tlPrep('hair',30,this)">כן (30 דק')</button></div></div>
+        <div class="section-card"><div class="section-title">💄 איפור?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('makeup',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('makeup',15,this)">כן (15 דק')</button></div></div>
+      </div>
+      <div class="section-card" style="border-color:rgba(46,204,113,.25);background:rgba(46,204,113,.05)">
+        <div class="section-title" style="color:#2ecc71">🌿 מסגרת התזונה — בוקר</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:10px">שמור על המסגרת גם ביום ים!</div>
+        <div class="tl-yn-btns">
+          <button class="tl-yn picked" onclick="tlPrep('forever',0,this)">✅ לקחתי הכל — אלוורה, גרציניה, בי פולן, שייק</button>
+          <button class="tl-yn" onclick="tlPrep('forever',10,this)">⏳ צריך להכין (10 דק')</button>
+          <button class="tl-yn" onclick="clForeverBuy('all')" style="color:#f4a522;border-color:rgba(244,165,34,.3)">🛒 נגמר לי — לרכישה</button>
+        </div>
+      </div>
+      <div class="section-card"><div class="section-title">🎒 ארוז תיק</div><div class="tl-yn-btns"><button class="tl-yn" onclick="tlPrep('bag',10,this)">מוכן (10 דק')</button><button class="tl-yn picked" onclick="tlPrep('bag',20,this)">צריך לארוז (20 דק')</button><button class="tl-yn" onclick="tlPrep('bag',30,this)">הרבה דברים (30 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">🍉 אוכל ושתייה</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('food',0,this)">הכל מוכן — לשים באוטו</button><button class="tl-yn" onclick="tlPrep('food',15,this)">לחתוך פירות (15 דק')</button><button class="tl-yn" onclick="tlPrep('food',30,this)">לקנות בדרך (30 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">⛽ דלק</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('fuel',0,this)">מלא</button><button class="tl-yn" onclick="tlPrep('fuel',15,this)">צריך למלא (15 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">🛒 קניות בדרך?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('shopping',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('shopping',20,this)">קצת (20 דק')</button><button class="tl-yn" onclick="tlPrep('shopping',40,this)">קניות גדולות (40 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">🧊 קרח?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('ice',0,this)">יש בבית</button><button class="tl-yn" onclick="tlPrep('ice',10,this)">לקנות בדרך (10 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">🚘 לאסוף מישהו?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('pickup',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('pickup',15,this)">כן (15 דק')</button><button class="tl-yn" onclick="tlPrep('pickup',30,this)">כמה אנשים (30 דק')</button></div></div>
+      <div class="section-card"><div class="section-title">☀️ מדד UV — <span id="tl-uv-display" style="color:#00bcd4">טוען...</span></div><div style="font-size:.78rem;color:rgba(255,255,255,.4)">נטען אוטומטית לפי מיקומך</div></div>
+      <div class="section-card"><div class="section-title">🧴 SPF</div><div class="spf-btns" id="tl-spf-btns"><button class="spf-pick" onclick="tlSetSPF(15,this)">SPF 15</button><button class="spf-pick active" onclick="tlSetSPF(30,this)">SPF 30</button><button class="spf-pick" onclick="tlSetSPF(50,this)">SPF 50</button><button class="spf-pick" onclick="tlSetSPF(50,this)">SPF 50+</button></div></div>
+      <div class="section-card"><div class="section-title">🍔 עצירה לאוכל בחזור?</div><div class="tl-yn-btns"><button class="tl-yn picked" onclick="tlPrep('returnfood',0,this)">לא</button><button class="tl-yn" onclick="tlPrep('returnfood',30,this)">30 דקות</button><button class="tl-yn" onclick="tlPrep('returnfood',60,this)">שעה</button></div></div>
+      <button class="btn-primary" onclick="tlGenerate()">⏱️ צור לוח זמנים!</button>
+    </div>
+    <div class="tl-page" id="tl-p4">
+      <div id="tl-output"></div>
+      <button class="late-btn" onclick="openModal('late-modal')">⏱️ איחרתי! עזרו לי לקצר</button>
+      <button class="btn-secondary" onclick="tlReset()">🔄 תכנן מחדש</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPENSES -->
+<div class="screen" id="s-expenses">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">💰 הוצאות יום ים</div><div class="top-bar-sub">תקציב, מעקב, פיצול</div></div></div>
+  <div class="tab-bar" id="exp-tabs"></div>
+  <div class="screen-body">
+    <div id="exp-personal" style="padding:0 14px 12px">
+      <div class="section-card"><div class="section-title">🎯 תקציב היום</div><input class="field-input" type="number" id="exp-budget" placeholder="כמה תכננת להוציא? ₪" oninput="expUpdateBudget()" style="margin-bottom:0"></div>
+      <div class="budget-fb" id="exp-budget-fb"></div>
+      <div class="section-card"><div class="section-title">➕ הוסף הוצאה</div>
+        <select class="field-select" id="exp-cat"><option>⛽ דלק</option><option>🅿️ חניה</option><option>🧴 קרם הגנה</option><option>🪑 כיסאות/שמשייה</option><option>🍔 אוכל</option><option>🍦 חטיפים</option><option>🍺 אלכוהול</option><option>🎢 כניסה/פעילות</option><option>➕ אחר</option></select>
+        <div style="display:flex;gap:8px"><input class="field-input" type="number" id="exp-amt" placeholder="סכום ₪" style="flex:1;margin-bottom:0"><button style="width:46px;height:50px;background:#00bcd4;border:none;border-radius:12px;color:#fff;font-size:1.4rem;cursor:pointer;flex-shrink:0" onclick="expAdd()">+</button></div>
+      </div>
+      <div id="exp-list"></div>
+      <div id="exp-total-bar" class="exp-total" style="display:none"></div>
+      <button class="btn-secondary" onclick="expSaveDay()" id="exp-save-btn" style="display:none">💾 שמור יום ים</button>
+    </div>
+    <div id="exp-friends" style="display:none;padding:0 14px 12px">
+      <div class="section-card"><div class="section-title">👥 חברים</div>
+        <div class="kids-bar" id="friends-chips" style="padding:0 0 10px"></div>
+        <div style="display:flex;gap:8px"><input class="field-input" id="friend-inp" placeholder="שם חבר..." style="flex:1;margin-bottom:0"><button style="width:46px;height:50px;background:#00bcd4;border:none;border-radius:12px;color:#fff;font-size:1.4rem;cursor:pointer;flex-shrink:0" onclick="expAddFriend()">+</button></div>
+      </div>
+      <div class="section-card" id="friend-exp-sec" style="display:none">
+        <div class="section-title">➕ הוצאה חדשה</div>
+        <select class="field-select" id="friend-payer"></select>
+        <select class="field-select" id="friend-cat"><option>⛽ דלק</option><option>🅿️ חניה</option><option>🍔 אוכל</option><option>🍺 שתייה</option><option>🎢 כניסה</option><option>➕ אחר</option></select>
+        <input class="field-input" type="number" id="friend-amt" placeholder="סכום ₪">
+        <button class="btn-primary" onclick="expAddFriendExp()">הוסף</button>
+      </div>
+      <div id="friend-exp-list"></div>
+      <div id="friends-balance"></div>
+    </div>
+    <div id="exp-history" style="display:none;padding:0 14px 12px">
+      <div id="hist-empty" class="empty-state"><div class="es-icon">📊</div>עדיין אין היסטוריה</div>
+      <div id="hist-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PARENTS -->
+<div class="screen" id="s-parents">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">👨‍👩‍👧‍👦 הורים וילדים</div></div></div>
+  <div class="screen-body">
+    <div class="pk-grid">
+      <div class="pk-card" onclick="go('s-pk-safety')"><div class="pk-ic">🦺</div><div class="pk-tt">בטיחות בים</div><div class="pk-sb">מציל, השגחה</div></div>
+      <div class="pk-card" onclick="go('s-checklist');clSwitchTab('ילדים')"><div class="pk-ic">✅</div><div class="pk-tt">צ׳ק ליסט ילדים</div><div class="pk-sb">לפי שם וגיל</div></div>
+      <div class="pk-card" onclick="go('s-pk-tips')"><div class="pk-ic">💡</div><div class="pk-tt">טיפים להורים</div><div class="pk-sb">המלצות מעשיות</div></div>
+      <div class="pk-card" onclick="go('s-pk-ages')"><div class="pk-ic">👶</div><div class="pk-tt">לפי גיל</div><div class="pk-sb">תינוק עד מתבגר</div></div>
+    </div>
+    <div class="pk-em-banner" onclick="go('s-pk-safety')"><span style="font-size:1.4rem">🚨</span><div><div style="font-weight:700;font-size:.9rem">ילד הלך לאיבוד?</div><div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:2px">לחץ כאן — מידע חירום מיידי</div></div></div>
+  </div>
+</div>
+
+<div class="screen" id="s-pk-safety">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-parents')">→</button><div class="top-bar-info"><div class="top-bar-title">🦺 בטיחות בים</div></div></div>
+  <div class="screen-body">
+    <div class="safety-card urgent" style="margin-top:14px"><div class="sc-icon">👶</div><div class="sc-title">ילד הלך לאיבוד</div><div class="sc-step"><span>1</span>אל תיכנס לפניקה</div><div class="sc-step"><span>2</span>פנה מיד למציל</div><div class="sc-step"><span>3</span>בדוק קו המים קודם</div><div class="sc-step"><span>4</span>5 דקות ולא נמצא — התקשר 100</div></div>
+    <div class="safety-card urgent"><div class="sc-icon">🌊</div><div class="sc-title">חשד לטביעה</div><div class="sc-step"><span>1</span>צעק "מציל!" בקול רם</div><div class="sc-step"><span>2</span>התקשר 101 מיד</div><div class="sc-step"><span>3</span>אל תיכנס למים אם לא מאומן</div></div>
+    <div class="safety-card"><div class="sc-icon">☀️</div><div class="sc-title">מכת חום</div><div class="sc-step"><span>⚠️</span>עור חם, בלבול, סחרחורת, בחילה</div><div class="sc-step"><span>1</span>העבר לצל מיד</div><div class="sc-step"><span>2</span>קרר במים ומגבת</div><div class="sc-step"><span>3</span>ללא שיפור ב-5 דקות — 101</div></div>
+    <div class="safety-card"><div class="sc-icon">🪼</div><div class="sc-title">מדוזה / קיפוד ים</div><div class="sc-step"><span>מדוזה</span>שטוף מי ים — לא מתוקים!</div><div class="sc-step"><span>קיפוד</span>אל תוציא קוצים — פנה לעזרה ראשונה</div></div>
+    <div class="safety-card" style="margin-bottom:14px"><div class="sc-title">📞 מספרי חירום</div><a href="tel:100" class="info-row" style="text-decoration:none"><span>👮 משטרה</span><span class="hosp-tel">100</span></a><a href="tel:101" class="info-row" style="text-decoration:none"><span>🚑 מגן דוד אדום</span><span class="hosp-tel">101</span></a><a href="tel:102" class="info-row" style="text-decoration:none"><span>🚒 כיבוי אש</span><span class="hosp-tel">102</span></a></div>
+  </div>
+</div>
+
+<div class="screen" id="s-pk-tips">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-parents')">→</button><div class="top-bar-info"><div class="top-bar-title">💡 טיפים להורים</div></div></div>
+  <div class="screen-body" style="padding-top:14px">
+    <div class="tip-list-item"><span>👕</span>הלבישו בגד ים בצבע בולט</div>
+    <div class="tip-list-item"><span>📍</span>קבעו נקודת מפגש מוכרת בחוף</div>
+    <div class="tip-list-item"><span>🆔</span>כתבו טלפון על יד הילד בעט בלתי מחיק</div>
+    <div class="tip-list-item"><span>⏰</span>תזכורת קרם כל שעה</div>
+    <div class="tip-list-item"><span>💧</span>שתיית מים כל 20-30 דקות</div>
+    <div class="tip-list-item"><span>🏖️</span>הביאו צל נייד</div>
+    <div class="tip-list-item"><span>😴</span>מנוחה בצל באמצע היום</div>
+    <div class="tip-list-item"><span>👀</span>קבעו תורנות השגחה בין הורים</div>
+    <div style="height:14px"></div>
+  </div>
+</div>
+
+<div class="screen" id="s-pk-ages">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-parents')">→</button><div class="top-bar-info"><div class="top-bar-title">👶 לפי גיל</div></div></div>
+  <div class="screen-body" style="padding-top:14px">
+    <div class="age-card"><div class="age-title">🍼 0-1 — תינוקות</div><ul class="age-list"><li>הימנעו משמש ישירה — צל בלבד</li><li>אין קרם לפני 6 חודשים</li><li>מים: רק כפות רגליים</li></ul></div>
+    <div class="age-card"><div class="age-title">🧒 1-3 — פעוטות</div><ul class="age-list"><li>השגחה צמודה במרחק נגיעה</li><li>אפודת הצלה גם במים רדודים</li><li>קרם SPF 50+ כל שעה</li></ul></div>
+    <div class="age-card"><div class="age-title">👦 4-7 — ילדים צעירים</div><ul class="age-list"><li>התחילו שיעורי שחייה</li><li>קבעו גבול ברור</li><li>למדו לזהות את המציל</li></ul></div>
+    <div class="age-card"><div class="age-title">🧑 8-12 — ילדים</div><ul class="age-list"><li>הסבירו על דגלים וזרמים</li><li>בדקו קרם הגנה ביוזמתם</li></ul></div>
+    <div class="age-card" style="margin-bottom:14px"><div class="age-title">🧑‍🎓 13+ — מתבגרים</div><ul class="age-list"><li>הסבירו על סכנות אמיתיות</li><li>קבעו שעת צ'ק-אין</li></ul></div>
+  </div>
+</div>
+
+<!-- EMERGENCY -->
+<div class="screen" id="s-emergency">
+  <div class="top-bar" style="background:rgba(180,0,0,.12)"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🚨 חירום וביטחון</div><div class="top-bar-sub">לחץ על המצב שלך</div></div></div>
+  <div class="em-nums"><a href="tel:100" class="em-num-a">👮 100</a><a href="tel:101" class="em-num-a hot">🚑 101</a><a href="tel:102" class="em-num-a">🚒 102</a><a href="tel:104" class="em-num-a">🌊 104</a></div>
+  <div class="screen-body">
+    <div style="height:14px"></div>
+    <div class="em-grid">
+      <div class="em-card red" onclick="emShow('drowning')"><div class="em-card-ic">🌊</div><div class="em-card-lbl">טביעה</div></div>
+      <div class="em-card red" onclick="emShow('lost')"><div class="em-card-ic">👶</div><div class="em-card-lbl">ילד אבד</div></div>
+      <div class="em-card orange" onclick="emShow('heat')"><div class="em-card-ic">☀️</div><div class="em-card-lbl">מכת חום</div></div>
+      <div class="em-card orange" onclick="emShow('injury')"><div class="em-card-ic">🩹</div><div class="em-card-lbl">פציעה</div></div>
+      <div class="em-card orange" onclick="emShow('jellyfish')"><div class="em-card-ic">🪼</div><div class="em-card-lbl">מדוזה/קיפוד</div></div>
+      <div class="em-card orange" onclick="emShow('current')"><div class="em-card-ic">🌀</div><div class="em-card-lbl">זרם חזק</div></div>
+      <div class="em-card blue" onclick="emShow('sunburn')"><div class="em-card-ic">🔥</div><div class="em-card-lbl">כוויית שמש</div></div>
+      <div class="em-card blue" onclick="emShow('cut')"><div class="em-card-ic">🔪</div><div class="em-card-lbl">חתך/זכוכית</div></div>
+    </div>
+    <div id="em-detail" style="display:none;padding:0 14px"></div>
+    <div class="section-card" style="margin:0 14px 14px">
+      <div class="section-title">🏥 בתי חולים קרובים</div>
+      <div class="tab-bar" style="padding:0 0 10px"><div class="tab-btn active" onclick="emHospitals('center',this)">מרכז</div><div class="tab-btn" onclick="emHospitals('north',this)">צפון</div><div class="tab-btn" onclick="emHospitals('south',this)">דרום</div><div class="tab-btn" onclick="emHospitals('eilat',this)">אילת</div></div>
+      <div id="em-hospitals"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPONSORS -->
+<div class="screen" id="s-sponsors">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🤝 חסויות</div></div></div>
+  <div class="screen-body" style="padding-top:14px" id="sponsors-list">
+    <div style="padding:0 14px 12px">
+      <button onclick="go('s-admin')" style="width:100%;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;color:rgba(255,255,255,.5);font-family:'Assistant',sans-serif;font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+        <span>🔐</span> ניהול חסויות (סיסמה נדרשת)
+      </button>
+    </div>
+    <div class="biz-card"><img class="biz-img" src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=200&q=75" alt=""><div class="biz-info"><div class="biz-name">שם החברה</div><div class="biz-desc">תיאור קצר של החברה.</div><div class="biz-btns"><a class="biz-btn ph" href="tel:0501234567">📞 התקשר</a><a class="biz-btn wa" href="https://wa.me/9720501234567">💬 וואטסאפ</a><a class="biz-btn web" href="https://example.com" target="_blank">🌐 אתר</a></div></div></div>
+    <div style="text-align:center;padding:16px;font-size:.72rem;color:rgba(255,255,255,.25)">מעוניינים להופיע? צרו קשר עם מנהל האפליקציה</div>
+  </div>
+</div>
+
+<!-- RESTAURANTS -->
+<div class="screen" id="s-restaurants">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🍔 מסעדות</div></div></div>
+  <div class="rest-quick"><a class="rest-q-btn" href="https://www.wolt.com" target="_blank">🛵 Wolt</a><a class="rest-q-btn" href="https://www.10bis.co.il" target="_blank">🍕 10bis</a><a class="rest-q-btn" href="https://maps.google.com/?q=מסעדות+ליד+הים" target="_blank">📍 Google</a><a class="rest-q-btn" href="https://www.tripadvisor.co.il" target="_blank">⭐ Trip</a></div>
+  <div class="tab-bar" id="rest-filter-tabs"></div>
+  <div class="screen-body" id="rest-list"></div>
+</div>
+
+<!-- COMMUNITY -->
+<div class="screen" id="s-community">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">👥 קהילה</div></div></div>
+  <div class="screen-body">
+    <div class="section-card" style="margin:14px">
+      <div class="section-title">📢 דווח מצב ים עכשיו</div>
+      <select class="field-select" id="comm-beach"><option>חוף גורדון — תל אביב</option><option>חוף הצוק</option><option>חוף הרצליה</option><option>חוף נהריה</option><option>חוף בת גלים</option><option>חוף אלמוג אילת</option></select>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px"><button class="cond-btn active" onclick="commSetCond('שקט 🟢',this)">שקט 🟢</button><button class="cond-btn" onclick="commSetCond('בינוני 🟡',this)">בינוני 🟡</button><button class="cond-btn" onclick="commSetCond('גלים גבוהים 🔴',this)">גלים גבוהים 🔴</button><button class="cond-btn" onclick="commSetCond('סכנה ⚫',this)">סכנה ⚫</button></div>
+      <div style="display:flex;gap:8px"><button class="btn-primary" style="margin:0" onclick="commShare('wa')">📱 וואטסאפ</button><button class="btn-primary" style="margin:0;background:linear-gradient(135deg,#1877f2,#0d5bd8)" onclick="commShare('fb')">📘 פייסבוק</button></div>
+    </div>
+    <div class="section-card" style="margin:0 14px 14px">
+      <div class="section-title">🔗 קהילות ים</div>
+      <div class="comm-row" onclick="window.open('https://www.facebook.com/groups/beaches.israel','_blank')"><span style="font-size:1.2rem">📘</span><span class="comm-row-name">קבוצת חובבי חופי ישראל</span><span class="comm-arr">←</span></div>
+      <div class="comm-row" onclick="commOpenWA()"><span style="font-size:1.2rem">📱</span><span class="comm-row-name">קבוצת וואטסאפ — מצב הים</span><span class="comm-arr">←</span></div>
+      <div class="comm-row" onclick="window.open('https://www.surfline.com/surf-report/israel','_blank')"><span style="font-size:1.2rem">🌊</span><span class="comm-row-name">Surfline — דיווחי גולשים</span><span class="comm-arr">←</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BEACH FUN -->
+<div class="screen" id="s-beachfun">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🎮 בילוי בחוף</div></div></div>
+  <div class="tab-bar" id="fun-tabs"></div>
+  <div class="screen-body" id="fun-list" style="padding:4px 14px 14px"></div>
+</div>
+
+<!-- TIP -->
+<div class="screen" id="s-tip">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">💡 טיפ היום</div><div class="top-bar-sub" id="tip-date-lbl"></div></div></div>
+  <div class="screen-body"><div style="height:14px"></div><div class="tip-main"><div class="tip-em" id="tip-main-em">💡</div><div class="tip-txt" id="tip-main-txt"></div><div class="tip-cat" id="tip-main-cat"></div></div><div class="section-card" style="margin:0 14px"><div class="section-title">📚 טיפים נוספים</div><div id="more-tips"></div></div><div style="height:14px"></div></div>
+</div>
+
+<!-- SHARE -->
+<div class="screen" id="s-share">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">📲 שיתוף</div></div></div>
+  <div class="screen-body" style="padding-top:14px">
+    <div class="share-row" onclick="shareChecklist()"><div class="share-ic">✅</div><div class="share-info"><div class="share-title">שתף צ׳ק ליסט</div><div class="share-sub">שלח לחברים מה לקחת</div></div><div class="share-arr">←</div></div>
+    <div class="share-row" onclick="shareTimeline()"><div class="share-ic">⏰</div><div class="share-info"><div class="share-title">שתף לוח זמנים</div><div class="share-sub">תיאום יציאה משותפת</div></div><div class="share-arr">←</div></div>
+    <div class="share-row" onclick="shareBeach()"><div class="share-ic">🏖️</div><div class="share-info"><div class="share-title">שתף מיקום החוף</div></div><div class="share-arr">←</div></div>
+    <div class="share-row" onclick="shareApp()"><div class="share-ic">📱</div><div class="share-info"><div class="share-title">שתף את BeachToGo</div></div><div class="share-arr">←</div></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="screen" id="s-admin">
+  <div class="top-bar"><button class="back-btn" onclick="go('s-home')">→</button><div class="top-bar-info"><div class="top-bar-title">🔐 ניהול</div></div></div>
+  <div class="screen-body">
+    <div id="adm-lock" style="text-align:center;padding:40px 20px"><div style="font-size:3rem;margin-bottom:14px">🔐</div><div style="font-family:'Secular One',sans-serif;font-size:1.1rem;margin-bottom:18px">הזן סיסמה</div><input type="password" id="adm-pass" class="field-input" placeholder="סיסמה..." style="max-width:220px;text-align:center;margin:0 auto 12px;display:block"><button class="btn-primary" style="max-width:220px;margin:0 auto;display:block" onclick="admCheck()">כניסה</button></div>
+    <div id="adm-content" style="display:none;padding:14px">
+      <div class="section-card"><div class="section-title">🤝 חסויות</div><div id="adm-sponsors"></div><button class="btn-primary" onclick="openModal('adm-sponsor-modal')">+ הוסף חסות</button></div>
+      <div class="section-card"><div class="section-title">🔗 קישורי קהילה</div><div style="font-size:.78rem;color:rgba(255,255,255,.45);margin-bottom:5px">קישור קבוצת וואטסאפ</div><input class="field-input" type="url" id="adm-wa" placeholder="https://chat.whatsapp.com/..."><div style="font-size:.78rem;color:rgba(255,255,255,.45);margin-bottom:5px">קישור קבוצת פייסבוק</div><input class="field-input" type="url" id="adm-fb" placeholder="https://facebook.com/groups/..."><button class="btn-primary" onclick="admSaveLinks()">💾 שמור</button></div>
+      <div class="section-card"><div class="section-title" style="color:#e74c3c">⚠️ איפוס</div><button class="btn-secondary" style="border-color:rgba(231,76,60,.4);color:#e74c3c;margin:0" onclick="if(confirm('לאפס?'))admReset()">🗑️ אפס הכל</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+
+<!-- FOREVER MODAL -->
+<div class="modal-overlay" id="forever-modal" onclick="if(event.target.id==='forever-modal')closeModal('forever-modal')">
+  <div class="modal-box" style="max-height:80vh;overflow-y:auto">
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:2.5rem;margin-bottom:6px">🌿</div>
+      <div class="modal-title" style="text-align:center">מסגרת התזונה היומית</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.45)">פוראבר ליווינג — חלק מהתהליך שלך</div>
+    </div>
+
+    <div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:14px;padding:13px;margin-bottom:12px">
+      <div style="font-family:'Secular One',sans-serif;font-size:.88rem;color:#2ecc71;margin-bottom:8px">🌱 מנת האלוורה היומית</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:8px">תמיכה במערכת העיכול, אנרגיה וניקוי הגוף. מושלם לפני יום פעיל בים.</div>
+      <button onclick="clForeverBuy('aloe')" style="padding:8px 16px;background:rgba(46,204,113,.25);border:1px solid rgba(46,204,113,.5);border-radius:20px;color:#2ecc71;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">📱 וואטסאפ לרכישה</button>
+    </div>
+
+    <div style="background:rgba(0,188,212,.08);border:1px solid rgba(0,188,212,.2);border-radius:14px;padding:13px;margin-bottom:12px">
+      <div style="font-family:'Secular One',sans-serif;font-size:.88rem;color:#00bcd4;margin-bottom:8px">💊 גרציניה פלוס</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:8px">תמיכה בשמירה על משקל. עוזרת להתמודד עם הפיתויים ביום ים.</div>
+      <button onclick="clForeverBuy('garcinia')" style="padding:8px 16px;background:rgba(0,188,212,.2);border:1px solid rgba(0,188,212,.4);border-radius:20px;color:#00bcd4;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">📱 וואטסאפ לרכישה</button>
+    </div>
+
+    <div style="background:rgba(244,165,34,.08);border:1px solid rgba(244,165,34,.2);border-radius:14px;padding:13px;margin-bottom:12px">
+      <div style="font-family:'Secular One',sans-serif;font-size:.88rem;color:#f4a522;margin-bottom:8px">🌸 בי פולן</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:8px">אנרגיה טבעית, ויטמינים ומינרלים. מושלם לפני יציאה לים.</div>
+      <button onclick="clForeverBuy('pollen')" style="padding:8px 16px;background:rgba(244,165,34,.2);border:1px solid rgba(244,165,34,.4);border-radius:20px;color:#f4a522;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">📱 וואטסאפ לרכישה</button>
+    </div>
+
+    <div style="background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.2);border-radius:14px;padding:13px;margin-bottom:14px">
+      <div style="font-family:'Secular One',sans-serif;font-size:.88rem;color:#9b59b6;margin-bottom:8px">🥤 שייק חלבון</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:8px">ארוחה מלאה ומזינה. מחליפה ארוחה ומונעת אכילה לא מבוקרת בחוף.</div>
+      <button onclick="clForeverBuy('shake')" style="padding:8px 16px;background:rgba(155,89,182,.2);border:1px solid rgba(155,89,182,.4);border-radius:20px;color:#9b59b6;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">📱 וואטסאפ לרכישה</button>
+    </div>
+
+    <div style="text-align:center;padding:4px 0 8px">
+      <div style="font-size:.72rem;color:rgba(255,255,255,.3);margin-bottom:10px">רוצה להתחיל את המסגרת?</div>
+      <button onclick="clForeverBuy('all');closeModal('forever-modal')" style="width:100%;padding:14px;background:linear-gradient(135deg,#2ecc71,#00bcd4);border:none;border-radius:14px;color:#fff;font-family:'Secular One',sans-serif;font-size:.95rem;cursor:pointer">💬 דברו איתנו בוואטסאפ</button>
+    </div>
+
+    <button class="mbtn s" style="width:100%;margin-top:8px" onclick="closeModal('forever-modal')">סגור</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="kid-modal" onclick="if(event.target.id==='kid-modal')closeModal('kid-modal')"><div class="modal-box"><div class="modal-title">👶 הוסף ילד</div><input class="modal-input" id="kid-name-inp" placeholder="שם הילד..."><input class="modal-input" id="kid-note-inp" placeholder="הערה מיוחדת (ללא גלוטן...)"><div class="modal-btns"><button class="mbtn s" onclick="closeModal('kid-modal')">ביטול</button><button class="mbtn p" onclick="kidConfirm()">הוסף ✓</button></div></div></div>
+<div class="modal-overlay" id="settle-modal" onclick="if(event.target.id==='settle-modal')closeModal('settle-modal')"><div class="modal-box"><div class="modal-title" id="settle-title">איזון תשלום</div><div style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:14px" id="settle-desc"></div><button class="settle-method" onclick="settleVia('ביט')">📱 ביט</button><button class="settle-method" onclick="settleVia('מזומן')">💵 מזומן</button><button class="settle-method" onclick="openBankTransfer()">🏦 העברה בנקאית</button><button class="settle-method" onclick="settleViaWA()">📱 וואטסאפ</button><div id="bank-area" style="display:none"><select class="field-select" id="bank-sel"><option value="https://www.bankhapoalim.co.il">בנק הפועלים</option><option value="https://www.leumi.co.il">בנק לאומי</option><option value="https://www.mizrahi-tefahot.co.il">מזרחי טפחות</option><option value="https://www.discountbank.co.il">דיסקונט</option></select><button class="btn-primary" onclick="goToBank()">פתח אתר בנק ←</button></div><button class="mbtn s" style="width:100%;margin-top:8px" onclick="closeModal('settle-modal')">סגור</button></div></div>
+<div class="modal-overlay" id="late-modal" onclick="if(event.target.id==='late-modal')closeModal('late-modal')"><div class="modal-box"><div class="modal-title">⏱️ כמה דקות איחרת?</div><input class="modal-input" type="number" id="late-mins" placeholder="לדוגמה: 20"><div class="modal-btns"><button class="mbtn s" onclick="closeModal('late-modal')">ביטול</button><button class="mbtn p" onclick="tlApplyLate()">עדכן לו"ז</button></div></div></div>
+<div class="modal-overlay" id="adm-sponsor-modal" onclick="if(event.target.id==='adm-sponsor-modal')closeModal('adm-sponsor-modal')"><div class="modal-box"><div class="modal-title">🤝 הוסף חסות</div><input class="modal-input" id="sp-name" placeholder="שם החברה"><input class="modal-input" id="sp-desc" placeholder="תיאור קצר"><input class="modal-input" id="sp-phone" placeholder="טלפון"><input class="modal-input" id="sp-wa" placeholder="וואטסאפ"><input class="modal-input" id="sp-site" placeholder="אתר"><div class="modal-btns"><button class="mbtn s" onclick="closeModal('adm-sponsor-modal')">ביטול</button><button class="mbtn p" onclick="admSaveSponsor()">הוסף ✓</button></div></div></div>
+
+<script>
+// NAV
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el){el.classList.add('active');el.querySelector('.screen-body')?.scrollTo(0,0);}
+  if(id==='s-beaches'){initBeachTabs();renderBeaches();}
+  if(id==='s-water'){initWaterTabs();renderWater();}
+  if(id==='s-edit'){document.getElementById('edit-preview').innerHTML='';document.getElementById('edit-caption').value='';}
+  if(id==='s-music'){initMusicTabs();switchMusic('radio',document.querySelector('#music-tabs .tab-btn'));}
+  if(id==='s-restaurants'){initRestTabs();renderRest();}
+  if(id==='s-beachfun'){initFunTabs();funShow('kids',document.querySelector('#fun-tabs .tab-btn'));}
+  if(id==='s-tip')initTip();
+  if(id==='s-emergency'){emHospitals('center',document.querySelector('#s-emergency .tab-btn'));document.getElementById('em-detail').style.display='none';}
+  if(id==='s-weather'&&!wLastCoords)wGetGPS();
+  if(id==='s-checklist'){clRenderTabs();clRenderList();clUpdateProgress();}
+  if(id==='s-admin'){document.getElementById('adm-lock').style.display='block';document.getElementById('adm-content').style.display='none';document.getElementById('adm-pass').value='';}
+  if(id==='s-expenses'){initExpTabs();}
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// CHECKLIST
+const CL_DATA={
+  "כללי":{emoji:"👜",short:"כללי",items:[{e:"🩱",n:"בגד ים"},{e:"🧴",n:"קרם הגנה"},{e:"🕶️",n:"משקפי שמש"},{e:"🧢",n:"כובע"},{e:"🏖️",n:"מגבת"},{e:"👟",n:"כפכפים"},{e:"💧",n:"מים (2 ליטר)"},{e:"🎒",n:"תיק"},{e:"🔑",n:"מפתחות"},{e:"📱",n:"טלפון + מטען"},{e:"💳",n:"ארנק"},{e:"🧊",n:"צידנית"},{e:"🧴",n:"שמפו"}]},
+  "אוכל":{emoji:"🍉",short:"אוכל",items:[{e:"🍉",n:"פירות"},{e:"🥪",n:"כריכים"},{e:"🍿",n:"חטיפים"},{e:"🧃",n:"שתייה קרה"},{e:"🍺",n:"אלכוהול"},{e:"🥤",n:"כוסות"},{e:"🧊",n:"קרח"},{e:"🍽️",n:"צלחות"},{e:"🍴",n:"סכום חד פעמי"},{e:"🔪",n:"סכין חיתוך"}]},
+
+  "תזונה יומית":{emoji:"🌿",short:"תזונה יומית",items:[
+    {e:"🌱",n:"מנת אלוורה בוקר"},
+    {e:"💊",n:"גרציניה פלוס"},
+    {e:"🌸",n:"בי פולן"},
+    {e:"🥤",n:"שייק חלבון"},
+    {e:"💧",n:"8 כוסות מים היום"},
+    {e:"🍽️",n:"ארוחת בוקר מסודרת"},
+    {e:"🚫",n:"לא לדלג על ארוחות"},
+    {e:"🍎",n:"פירות — לא חטיפים"},
+    {e:"🥗",n:"ארוחת צהריים קלה"},
+    {e:"🏠",n:"ארוחת ערב מסודרת בבית"}
+  ],forever:true},
+  "ציוד":{emoji:"🤿",short:"ציוד",items:[{e:"🤿",n:"מסכת שנורקל"},{e:"🏄",n:"גלשן / מזרן ים"},{e:"⛱️",n:"שמשייה"},{e:"🪑",n:"כיסאות"},{e:"🎣",n:"ציוד דייג"}]},
+  "משחקים":{emoji:"🎮",short:"משחקים",items:[{e:"🏸",n:"מטקות"},{e:"🎲",n:"שש-בש"},{e:"🥏",n:"פריזבי"},{e:"🃏",n:"קלפים"},{e:"🪁",n:"עפיפון"},{e:"🏐",n:"כדור"}]},
+  "בנות":{emoji:"💅",short:"בנות",items:[{e:"🪞",n:"מראה"},{e:"💄",n:"שפתון עמיד"},{e:"💆",n:"שמן לגוף"},{e:"👙",n:"בגד ים נוסף"},{e:"🌸",n:"ספריי שיער"},{e:"👗",n:"בגד להחלפה"},{e:"💊",n:"תרופות / וסת"}]},
+  "ילדים":{emoji:"👶",short:"ילדים",baseItems:[{e:"🩱",n:"בגד ים"},{e:"🧴",n:"קרם SPF 50+"},{e:"🧢",n:"כובע"},{e:"👟",n:"נעלי ים"},{e:"🦺",n:"אפודת הצלה"},{e:"🧸",n:"צעצוע חוף"},{e:"🪣",n:"דלי ומגרפה"},{e:"🩹",n:"אקופלסט"},{e:"🍼",n:"אוכל לילד"}]}
+};
+let clTab="כללי",clKid=null,clKids=[],clChecked={},clIrr={},clCustom={},clPressTimer=null;
+function clKey(tab,name,kid){return kid?`${tab}||${name}||${kid}`:`${tab}||${name}`;}
+function clTabKey(tab,kid){return kid?`${tab}||${kid}`:tab;}
+function clGetItems(tab,kid){
+  if(tab==="ילדים"&&kid){const k=clKids.find(x=>x.name===kid);return[...(CL_DATA["ילדים"].baseItems||[]),...(k?k.items:[])];}
+  return[...(CL_DATA[tab].items||[]),...(clCustom[clTabKey(tab,null)]||[])];
+}
+function clRenderTabs(){
+  const el = document.getElementById('cl-tabs');
+  el.innerHTML = '';
+  Object.keys(CL_DATA).forEach(function(t) {
+    const btn = document.createElement('div');
+    btn.className = 'tab-btn' + (t === clTab ? ' active' : '');
+    // Show emoji only + very short label
+    btn.textContent = CL_DATA[t].emoji + ' ' + CL_DATA[t].short;
+    btn.addEventListener('click', function(){ clSwitchTab(t); });
+    el.appendChild(btn);
+  });
+  setTimeout(function(){ el.scrollLeft = 0; }, 10);
+}
+function clSwitchTab(t){clTab=t;clKid=t==="ילדים"&&clKids.length>0?clKids[0].name:null;clRenderTabs();clRenderKids();clRenderList();}
+function clRenderKids(){
+  const bar=document.getElementById('cl-kids');
+  if(clTab!=="ילדים"){bar.style.display='none';return;}
+  bar.style.display='flex';
+  bar.innerHTML=clKids.map(k=>`<div class="kid-chip ${clKid===k.name?'active':''}" onclick="clSelKid('${k.name}')">👦 ${k.name}<span class="kx" onclick="clRmKid(event,'${k.name}')"> ✕</span></div>`).join('')+`<div class="add-kid-btn" onclick="openModal('kid-modal')">+ הוסף ילד</div>`;
+}
+function clSelKid(n){clKid=n;clRenderKids();clRenderList();}
+function clRmKid(e,n){e.stopPropagation();clKids=clKids.filter(k=>k.name!==n);if(clKid===n)clKid=clKids.length>0?clKids[0].name:null;clRenderKids();clRenderList();}
+function clRenderList(){
+  const list=document.getElementById('cl-list');
+  if(clTab==="ילדים"&&!clKid){list.innerHTML='<div class="empty-state"><div class="es-icon">👶</div>הוסף ילד כדי להתחיל</div>';clUpdateProgress();return;}
+  const items=clGetItems(clTab,clKid);
+  const regular=items.filter(i=>!clChecked[clKey(clTab,i.n,clKid)]&&!clIrr[clKey(clTab,i.n,clKid)]);
+  const done=items.filter(i=>!!clChecked[clKey(clTab,i.n,clKid)]);
+  const irr=items.filter(i=>!!clIrr[clKey(clTab,i.n,clKid)]);
+  let html=`<div class="cat-block open"><div class="cat-head" onclick="this.parentElement.classList.toggle('open')"><span class="cat-em">${CL_DATA[clTab].emoji}</span><span class="cat-nm">${clTab}${clKid?' — '+clKid:''}</span><span class="cat-cnt">${regular.length} נותרו</span><span class="cat-arr">▼</span></div><div class="cat-items">`;
+  if(!items.length)html+='<div class="empty-state"><div class="es-icon">🎉</div>כל הפריטים ארוזים!</div>';
+  regular.forEach(item=>{html+=`<div class="cl-item" onclick="clToggle('${item.n}')" oncontextmenu="clToggleIrr('${item.n}',event)" data-n="${item.n}"><div class="cl-check"></div><span class="cl-em">${item.e}</span><span class="cl-nm">${item.n}</span></div>`;});
+  if(done.length){html+=`<div class="irr-divider">✅ לקחתי 😊</div>`;done.forEach(item=>{html+=`<div class="cl-item" onclick="clToggle('${item.n}')" oncontextmenu="clToggleIrr('${item.n}',event)" data-n="${item.n}"><div class="cl-check done">✓</div><span class="cl-em" style="opacity:.5">${item.e}</span><span class="cl-nm done">${item.n}</span></div>`;});}
+  if(irr.length){html+=`<div class="irr-divider">🚫 לא רלוונטי</div>`;irr.forEach(item=>{html+=`<div class="cl-item" onclick="clToggleIrr('${item.n}',event)" data-n="${item.n}"><div class="cl-check irr">🚫</div><span class="cl-em" style="opacity:.3">${item.e}</span><span class="cl-nm irr">${item.n}</span></div>`;});}
+  html+='</div></div>';
+  // Forever banner
+  if(CL_DATA[clTab] && CL_DATA[clTab].forever) {
+    html += `<div style="margin:10px 14px 4px;background:linear-gradient(135deg,rgba(46,204,113,.12),rgba(0,188,212,.08));border:1px solid rgba(46,204,113,.3);border-radius:14px;padding:13px 14px;">
+      <div style="font-family:'Secular One',sans-serif;font-size:.88rem;color:#2ecc71;margin-bottom:6px">🌿 מסגרת פוראבר</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:10px">שמירה על המסגרת גם ביום ים — זה התהליך! 💪</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="go('s-sponsors')" style="padding:8px 14px;background:rgba(46,204,113,.2);border:1px solid rgba(46,204,113,.4);border-radius:20px;color:#2ecc71;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">🛒 לרכישה</button>
+        <button onclick="clForeverReminder()" style="padding:8px 14px;background:rgba(244,165,34,.15);border:1px solid rgba(244,165,34,.3);border-radius:20px;color:#f4a522;font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">🔔 תזכורת</button>
+        <button onclick="clForeverInfo()" style="padding:8px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:20px;color:rgba(255,255,255,.7);font-family:'Assistant',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer">ℹ️ מה זה?</button>
+      </div>
+    </div>`;
+  }
+  list.innerHTML=html;
+  clSetupLongPress();clUpdateProgress();
+}
+function clToggle(n){const k=clKey(clTab,n,clKid);if(clIrr[k])return;clChecked[k]=!clChecked[k];clRenderList();}
+function clToggleIrr(n,e){if(e)e.preventDefault();const k=clKey(clTab,n,clKid);clIrr[k]=!clIrr[k];if(clIrr[k])delete clChecked[k];clRenderList();}
+function clSetupLongPress(){document.querySelectorAll('.cl-item[data-n]').forEach(el=>{el.addEventListener('touchstart',()=>{const n=el.dataset.n;clPressTimer=setTimeout(()=>clToggleIrr(n,null),600);},{passive:true});el.addEventListener('touchend',()=>clearTimeout(clPressTimer));el.addEventListener('touchmove',()=>clearTimeout(clPressTimer));});}
+function clAddItem(){const inp=document.getElementById('cl-add-inp'),val=inp.value.trim();if(!val)return;if(clTab==="ילדים"&&clKid){const k=clKids.find(x=>x.name===clKid);if(k)k.items.push({e:'➕',n:val});}else{const k=clTabKey(clTab,null);if(!clCustom[k])clCustom[k]=[];clCustom[k].push({e:'➕',n:val});}inp.value='';clRenderList();}
+document.getElementById('cl-add-inp').addEventListener('keydown',e=>{if(e.key==='Enter')clAddItem();});
+function clResetAll(){clChecked={};clRenderList();}
+function clUpdateProgress(){
+  let total=0,done=0;
+  Object.keys(CL_DATA).forEach(tab=>{
+    if(tab==="ילדים"){clKids.forEach(kid=>{const items=clGetItems(tab,kid.name),rel=items.filter(i=>!clIrr[clKey(tab,i.n,kid.name)]);total+=rel.length;done+=rel.filter(i=>clChecked[clKey(tab,i.n,kid.name)]).length;});}
+    else{const items=clGetItems(tab,null),rel=items.filter(i=>!clIrr[clKey(tab,i.n,null)]);total+=rel.length;done+=rel.filter(i=>clChecked[clKey(tab,i.n,null)]).length;}
+  });
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('cl-prog').style.width=pct+'%';
+  document.getElementById('cl-prog-txt').textContent=`${done} / ${total} פריטים`;
+  document.getElementById('cl-done-pill').textContent=`✅ ${done}`;
+  document.getElementById('cl-sub').textContent=pct===100?'🎉 הכל מוכן!':pct+'% מוכן';
+}
+function kidConfirm(){const name=document.getElementById('kid-name-inp').value.trim();if(!name)return;const note=document.getElementById('kid-note-inp').value.trim();if(!clKids.find(k=>k.name===name)){clKids.push({name,note,items:[]});clKid=name;}closeModal('kid-modal');clRenderKids();clRenderList();}
+
+// BEACHES
+const BEACHES={
+  beaches:[
+    {id:1,name:"חוף נהריה",area:"north",lat:33.0052,lng:35.0949,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75",lifeguard:true,lhours:"8:00-19:00",parking:"בתשלום 20₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"נמוך",rating:4.2,cam:"https://beachcam.co.il"},
+    {id:2,name:"חוף בת גלים — חיפה",area:"north",lat:32.8310,lng:34.9883,img:"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"בתשלום 15₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"גבוה",rating:3.9,cam:"https://beachcam.co.il/batgalim.html"},
+    {id:3,name:"חוף גורדון — תל אביב",area:"center",lat:32.0853,lng:34.7685,img:"https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=75",lifeguard:true,lhours:"7:00-19:00",parking:"בתשלום 30₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"בינוני",rating:4.3,cam:"https://beachcam.co.il/yamit.html"},
+    {id:4,name:"חוף הצוק — תל אביב",area:"center",lat:32.1020,lng:34.7600,img:"https://images.unsplash.com/photo-1530053969600-caed2596d242?w=600&q=75",lifeguard:true,lhours:"8:00-19:00",parking:"בתשלום 25₪",access:false,dogs:false,bbq:false,shower:true,rest:false,waves:"בינוני",rating:4.4,cam:"https://beachcam.co.il/aviv.html"},
+    {id:5,name:"חוף הרצליה",area:"center",lat:32.1640,lng:34.8000,img:"https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=600&q=75",lifeguard:true,lhours:"8:00-19:00",parking:"בתשלום 25₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"נמוך",rating:4.3,cam:"https://beachcam.co.il/dromi2.html"},
+    {id:6,name:"חוף פלמחים",area:"center",lat:31.9213,lng:34.6982,img:"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=75",lifeguard:false,lhours:"-",parking:"חינם",access:false,dogs:true,bbq:true,shower:false,rest:false,waves:"גבוה",rating:4.6,cam:null},
+    {id:7,name:"חוף אשדוד",area:"south",lat:31.7980,lng:34.6440,img:"https://images.unsplash.com/photo-1439130490301-25e322d88054?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"בתשלום 15₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"בינוני",rating:3.8,cam:null},
+    {id:8,name:"חוף אלמוג — אילת",area:"eilat",lat:29.5420,lng:34.9480,img:"https://images.unsplash.com/photo-1520942702018-0862200e6873?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"בתשלום 20₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"אין",rating:4.8,cam:"https://www.seaschool.co.il/camera1.php"},
+    {id:9,name:"חוף דוגית — כנרת",area:"kinneret",lat:32.7200,lng:35.5800,img:"https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"בתשלום 30₪",access:true,dogs:false,bbq:true,shower:true,rest:true,waves:"אין",rating:4.2,cam:null},
+    {id:10,name:"חוף עין בוקק — ים המלח",area:"deadsea",lat:31.1980,lng:35.3620,img:"https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"בתשלום 30₪",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"אין",rating:4.7,cam:null},
+    {id:11,name:"חוף ממשית — ים המלח",area:"deadsea",lat:31.2200,lng:35.3800,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75",lifeguard:false,lhours:"-",parking:"חינם",access:false,dogs:false,bbq:false,shower:false,rest:false,waves:"אין",rating:4.5,cam:null},
+    {id:12,name:"חוף ריבה — אילת",area:"eilat_sea",lat:29.5420,lng:34.9480,img:"https://images.unsplash.com/photo-1520942702018-0862200e6873?w=600&q=75",lifeguard:true,lhours:"8:00-18:00",parking:"חינם",access:true,dogs:false,bbq:false,shower:true,rest:true,waves:"אין",rating:4.6,cam:null},
+    {id:13,name:"חוף הבוננה — אילת",area:"eilat_sea",lat:29.5380,lng:34.9520,img:"https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=75",lifeguard:false,lhours:"-",parking:"חינם",access:false,dogs:true,bbq:true,shower:false,rest:false,waves:"אין",rating:4.8,cam:null},
+  ],
+  parks:[
+    {id:101,name:"לונה גל — ראשון לציון",area:"center",lat:31.9730,lng:34.8000,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75",price:"מבוגר 120₪, ילד 100₪",hours:"10:00-18:00",access:true,rating:4.3},
+    {id:102,name:"מי עדן — גן השלושה",area:"north",lat:32.5580,lng:35.4820,img:"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=75",price:"מבוגר 80₪, ילד 60₪",hours:"9:00-17:00",access:true,rating:4.5},
+  ],
+  springs:[
+    {id:201,name:"עין גדי — נחל דוד",area:"south",lat:31.4620,lng:35.3890,img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75",hike:"45 דקות",diff:"בינוני",swim:true,temp:"קר (18°)",rating:4.8},
+    {id:202,name:"נחל עמוד",area:"north",lat:32.8900,lng:35.4800,img:"https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=600&q=75",hike:"2-3 שעות",diff:"קשה",swim:true,temp:"קר (17°)",rating:4.5},
+    {id:203,name:"עין אפק — צפון",area:"north",lat:32.9720,lng:35.1380,img:"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=75",hike:"20 דקות",diff:"קל",swim:true,temp:"פושר (22°)",rating:4.1},
+  ],
+  attractions:[
+    {id:301,name:"דולפינריום אילת",area:"eilat",lat:29.5400,lng:34.9500,img:"https://images.unsplash.com/photo-1530053969600-caed2596d242?w=600&q=75",price:"85₪",type:"🐬 דולפינים",rating:4.5},
+    {id:302,name:"גלישת קייטסרף — תל אביב",area:"center",lat:32.1020,lng:34.7600,img:"https://images.unsplash.com/photo-1520942702018-0862200e6873?w=600&q=75",price:"350₪ שיעור",type:"🏄 קייטסרף",rating:4.6},
+    {id:303,name:"קיאקים — כנרת",area:"kinneret",lat:32.7940,lng:35.5310,img:"https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?w=600&q=75",price:"80₪ לשעה",type:"🚣 קיאק",rating:4.2},
+  ]
+};
+let beachCat='beaches',beachArea='all';
+function switchBeachCat(cat,btn){beachCat=cat;beachArea='all';document.querySelectorAll('#beach-cat-tabs .tab-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');document.querySelectorAll('#beach-area-bar .area-btn').forEach((t,i)=>t.classList.toggle('active',i===0));renderBeaches();}
+function filterAreaBeach(area,btn){beachArea=area;document.querySelectorAll('#beach-area-bar .area-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');renderBeaches();}
+function filterArea(area,btn){beachArea=area;document.querySelectorAll('#beach-area-bar .area-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');renderBeaches();}
+function renderBeaches(){
+  const search=(document.getElementById('beach-search')?.value||'').toLowerCase();
+  let items=BEACHES[beachCat]||[];
+  if(beachArea!=='all')items=items.filter(b=>b.area===beachArea);
+  if(search)items=items.filter(b=>b.name.toLowerCase().includes(search));
+  const list=document.getElementById('beach-list');if(!list)return;
+  if(!items.length){list.innerHTML='<div class="empty-state"><div class="es-icon">🔍</div>לא נמצאו תוצאות</div>';return;}
+  const areaNames={north:'צפון',center:'מרכז',south:'דרום',eilat:'אילת',kinneret:'כנרת'};
+  list.innerHTML=items.map(item=>{
+    if(beachCat==='beaches')return`<div class="beach-card" onclick="showBeachDetail(${item.id})"><img src="${item.img}" alt="" loading="lazy"><div class="beach-card-body"><div class="beach-card-top"><div class="beach-card-name">${item.name}</div><div class="beach-card-area">${areaNames[item.area]||''}</div></div><div class="tag-row">${item.lifeguard?'<span class="tag green">🦺 מציל</span>':'<span class="tag red">⚠️ ללא מציל</span>'}${item.access?'<span class="tag blue">♿</span>':''}${item.dogs?'<span class="tag">🐕</span>':''}${item.bbq?'<span class="tag">🔥</span>':''}<span class="tag">${item.parking}</span><span class="tag gold">⭐ ${item.rating}</span></div><div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a><a class="nav-btn google" href="https://maps.google.com/?q=${item.lat},${item.lng}" target="_blank">📍 Google</a>${item.cam?`<a class="nav-btn cam" href="${item.cam}" target="_blank">📷 מצלמה</a>`:`<a class="nav-btn cam" href="https://www.youtube.com/results?search_query=${encodeURIComponent(item.name+' beach live')}" target="_blank">▶️ יוטיוב</a>`}</div></div></div>`;
+    if(beachCat==='parks')return`<div class="beach-card"><img src="${item.img}" alt="" loading="lazy"><div class="beach-card-body"><div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div><div class="tag-row"><span class="tag gold">💰 ${item.price.split(',')[0]}</span>${item.access?'<span class="tag blue">♿</span>':''}</div><div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a></div></div></div>`;
+    if(beachCat==='springs')return`<div class="beach-card"><img src="${item.img}" alt="" loading="lazy"><div class="beach-card-body"><div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div><div class="tag-row"><span class="tag blue">🥾 ${item.hike}</span><span class="tag ${item.diff==='קל'?'green':'red'}">${item.diff}</span><span class="tag">🌡️ ${item.temp}</span></div><div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a></div></div></div>`;
+    return`<div class="beach-card"><img src="${item.img}" alt="" loading="lazy"><div class="beach-card-body"><div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div><div class="tag-row"><span class="tag blue">${item.type}</span><span class="tag gold">💰 ${item.price}</span></div><div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a></div></div></div>`;
+  }).join('');
+}
+function showBeachDetail(id){
+  const item=BEACHES.beaches.find(b=>b.id===id);if(!item)return;
+  document.getElementById('bd-title').textContent=item.name;
+  document.getElementById('bd-sub').textContent={north:'צפון',center:'מרכז',south:'דרום',eilat:'אילת',kinneret:'כנרת'}[item.area];
+  document.getElementById('bd-body').innerHTML=`<img src="${item.img}" style="width:100%;height:160px;object-fit:cover;display:block"><div style="padding:14px"><div class="section-card"><div class="section-title">📋 פרטים</div><div class="info-row"><span class="lbl">מציל</span><span class="val">${item.lifeguard?'✅ '+item.lhours:'❌ אין'}</span></div><div class="info-row"><span class="lbl">חניה</span><span class="val">${item.parking}</span></div><div class="info-row"><span class="lbl">נגישות</span><span class="val">${item.access?'✅':'❌'}</span></div><div class="info-row"><span class="lbl">מקלחות</span><span class="val">${item.shower?'✅':'❌'}</span></div><div class="info-row"><span class="lbl">מסעדה</span><span class="val">${item.rest?'✅':'❌'}</span></div><div class="info-row"><span class="lbl">כלבים</span><span class="val">${item.dogs?'✅':'❌'}</span></div><div class="info-row"><span class="lbl">גלים</span><span class="val">${item.waves}</span></div><div class="info-row"><span class="lbl">דירוג</span><span class="val">⭐ ${item.rating}/5</span></div></div><div class="section-card"><div class="section-title">📷 מצלמת חוף</div><div style="display:flex;gap:8px;flex-wrap:wrap">${item.cam?`<a class="nav-btn cam" href="${item.cam}" target="_blank" style="padding:10px 14px;text-decoration:none">🔴 חיה</a>`:''}<a class="nav-btn cam" href="https://www.youtube.com/results?search_query=${encodeURIComponent(item.name+' beach live cam')}" target="_blank" style="padding:10px 14px;text-decoration:none">▶️ יוטיוב</a></div></div><div style="display:flex;gap:8px"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank" style="flex:1;padding:14px;text-decoration:none;text-align:center">🗺️ Waze</a><a class="nav-btn google" href="https://maps.google.com/?q=${item.lat},${item.lng}" target="_blank" style="flex:1;padding:14px;text-decoration:none;text-align:center">📍 Google Maps</a></div></div>`;
+  go('s-beach-detail');
+}
+function beachFindNearest(){if(!navigator.geolocation){alert('GPS לא זמין');return;}navigator.geolocation.getCurrentPosition(pos=>{const{latitude:lat,longitude:lng}=pos.coords;let nearest=null,minD=Infinity;BEACHES[beachCat].forEach(b=>{const d=Math.sqrt((b.lat-lat)**2+(b.lng-lng)**2);if(d<minD){minD=d;nearest=b;}});if(nearest){document.getElementById('beach-search').value=nearest.name;renderBeaches();}},()=>alert('לא ניתן לקבל מיקום'));}
+
+// WEATHER
+let wLastCoords=null,wCreamSPF=15,wCurrentUV=6;
+function wGetGPS(){document.getElementById('w-loc').textContent='מאתר מיקום...';if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(pos=>{wLoad(pos.coords.latitude,pos.coords.longitude,'המיקום שלי');},()=>document.getElementById('w-loc').textContent='לא ניתן לקבל מיקום');}
+function wGetBeach(){const val=document.getElementById('w-beach-sel').value;if(!val)return;const[lat,lng,name]=val.split('|');wLoad(parseFloat(lat),parseFloat(lng),name);}
+async function wLoad(lat,lng,name){
+  wLastCoords={lat,lng};
+  document.getElementById('w-loc').textContent=name;
+  document.getElementById('w-loading').style.display='block';
+  document.getElementById('w-content').style.display='none';
+  document.getElementById('w-error').style.display='none';
+  try{
+    const[wr,mr,ur]=await Promise.allSettled([
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code&timezone=auto`).then(r=>r.json()),
+      fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lng}&current=wave_height,sea_surface_temperature`).then(r=>r.json()),
+      fetch(`https://currentuvindex.com/api/v1/uvi?latitude=${lat}&longitude=${lng}`).then(r=>r.json())
+    ]);
+    if(wr.status==='fulfilled'){const w=wr.value.current;document.getElementById('w-temp').textContent=Math.round(w.temperature_2m)+'°';document.getElementById('w-feel').textContent='מורגש '+Math.round(w.apparent_temperature)+'°';document.getElementById('w-wind').textContent=Math.round(w.wind_speed_10m)+' קמ"ש';document.getElementById('w-hum').textContent=Math.round(w.relative_humidity_2m)+'%';const code=w.weather_code;let ic='☀️',desc='בהיר';if(code>=1&&code<=3){ic='🌤️';desc='מעונן חלקית';}else if(code>=45&&code<=48){ic='🌫️';desc='ערפילי';}else if(code>=51&&code<=67){ic='🌧️';desc='גשם';}else if(code>=80){ic='⛈️';desc='סופות';}document.getElementById('w-icon').textContent=ic;document.getElementById('w-desc').textContent=desc;}
+    if(mr.status==='fulfilled'&&mr.value.current){const m=mr.value.current,wave=m.wave_height;document.getElementById('w-waves').textContent=wave?wave.toFixed(1)+'מ':'--';document.getElementById('w-wtemp').textContent=m.sea_surface_temperature?Math.round(m.sea_surface_temperature)+'°':'--';const fc=document.getElementById('w-flag');let cl,ic,title,desc;if(!wave||wave<0.5){cl='green';ic='🟢';title='דגל ירוק — שקט';desc='מים שקטים, מתאים לכולם';}else if(wave<1.2){cl='red';ic='🔴';title='דגל אדום — סכנה';desc='גלים בינוניים, היזהר עם ילדים';}else{cl='black';ic='⚫';title='דגל שחור — איסור';desc='גלים גבוהים — אל תיכנס!';}fc.className='flag-card '+cl;document.getElementById('w-flag-ic').textContent=ic;document.getElementById('w-flag-title').textContent=title;document.getElementById('w-flag-desc').textContent=desc+' ('+(wave?wave.toFixed(1):'-')+'מ)';}
+    if(ur.status==='fulfilled'&&ur.value.ok){wCurrentUV=ur.value.now.uvi;document.getElementById('w-uv').textContent=wCurrentUV.toFixed(1);document.getElementById('w-uv-bar').style.marginRight=Math.min(wCurrentUV/12*100,100)+'%';let level;if(wCurrentUV<=2)level='🟢 נמוך';else if(wCurrentUV<=5)level='🟡 בינוני';else if(wCurrentUV<=7)level='🟠 גבוה';else if(wCurrentUV<=10)level='🔴 מאוד גבוה';else level='🟣 קיצוני';document.getElementById('w-uv-level').textContent=level;}
+    const now=new Date();document.getElementById('w-cream-time').value=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('w-loading').style.display='none';document.getElementById('w-content').style.display='block';wCalcCream();
+  }catch(err){document.getElementById('w-loading').style.display='none';document.getElementById('w-error').style.display='block';}
+}
+function wSetSPF(v,btn){wCreamSPF=v;document.querySelectorAll('#s-weather .spf-mini').forEach(b=>b.classList.remove('active'));btn.classList.add('active');wCalcCream();}
+function getSunTimes(month){const t={1:[6.7,17.0],2:[6.5,17.5],3:[6.0,18.0],4:[6.2,19.3],5:[5.8,19.7],6:[5.6,20.0],7:[5.8,20.0],8:[6.0,19.6],9:[6.2,18.9],10:[6.3,18.2],11:[6.0,16.8],12:[6.4,16.6]};return t[month]||[6,18];}
+function isDaylight(t){const[h,m]=t.split(':').map(Number),d=h+m/60,mn=new Date().getMonth()+1,[sr,ss]=getSunTimes(mn);return d>=sr&&d<=ss;}
+function getSunset(){const[,ss]=getSunTimes(new Date().getMonth()+1),h=Math.floor(ss),m=Math.round((ss-h)*60);return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');}
+function addMins(t,mins){const[h,m]=t.split(':').map(Number),tot=h*60+m+mins,nh=Math.floor(tot/60)%24,nm=tot%60;return String(nh).padStart(2,'0')+':'+String(nm).padStart(2,'0');}
+function diffMins(t1,t2){const[h1,m1]=t1.split(':').map(Number),[h2,m2]=t2.split(':').map(Number);return(h2*60+m2)-(h1*60+m1);}
+function wCalcCream(){
+  const t=document.getElementById('w-cream-time').value;if(!t)return;
+  if(!isDaylight(t)){document.getElementById('w-cream-sched').innerHTML='<div style="font-size:.82rem;color:rgba(255,255,255,.4);padding:8px 0;text-align:center">🌙 אחרי שקיעה — אין צורך בקרם</div>';return;}
+  const uv=wCurrentUV||6;let intv;
+  if(uv<=2)intv=120;else if(uv<=5)intv=wCreamSPF>=50?120:90;else if(uv<=7)intv=wCreamSPF>=50?90:60;else if(uv<=10)intv=wCreamSPF>=50?60:45;else intv=30;
+  const ss=getSunset();let html=`<div style="font-size:.72rem;color:rgba(255,255,255,.35);margin-bottom:7px">מרח כל ${intv} דקות (SPF ${wCreamSPF}, UV ${uv.toFixed?uv.toFixed(1):uv})</div>`;
+  let cur=t;
+  for(let i=1;i<=5;i++){if(!isDaylight(cur)){html+=`<div class="cream-row" style="opacity:.4"><span class="cream-t">🌅 ${ss}</span><span>שקיעה — סיימת!</span></div>`;break;}html+=`<div class="cream-row"><span class="cream-t">${cur}</span><span>מריחה ${i}${i===1?' (לפני המים)':''}</span></div>`;cur=addMins(cur,intv);}
+  document.getElementById('w-cream-sched').innerHTML=html;
+}
+
+// TIMELINE
+let tlPriority='arrive',tlDuration=3,tlGender='mixed',tlSPF=30,tlUV=6,tlSteps=[];
+let tlPrepData={shower:0,hair:0,makeup:0,bag:20,food:0,fuel:0,shopping:0,ice:0,pickup:0,returnfood:0,forever:0};
+let appUV=null;
+function getAppUVOrFetch(cb){if(appUV!==null){cb(appUV);return;}if(!navigator.geolocation){appUV=6;cb(6);return;}navigator.geolocation.getCurrentPosition(pos=>{fetch(`https://currentuvindex.com/api/v1/uvi?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}`).then(r=>r.json()).then(d=>{appUV=d.ok?d.now.uvi:6;cb(appUV);}).catch(()=>{appUV=6;cb(6);});},()=>{appUV=6;cb(6);});}
+function tlSetPriority(p){tlPriority=p;if(p==='home'){document.getElementById('tl-time-lbl').textContent='⏰ שעת יציאה מהבית';document.getElementById('tl-dur-sec').style.display='block';}else{document.getElementById('tl-time-lbl').textContent='⏰ מתי רוצה להיות בחוף?';document.getElementById('tl-dur-sec').style.display='none';}getAppUVOrFetch(uv=>{tlUV=uv;document.getElementById('tl-uv-display').textContent='UV '+uv.toFixed(1)+' — '+(uv<=2?'נמוך':uv<=5?'בינוני':uv<=7?'גבוה':uv<=10?'מאוד גבוה':'קיצוני');});tlGoPage(2);}
+function tlSetDur(d,btn){tlDuration=d;document.querySelectorAll('#tl-dur-btns .spf-pick').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function tlSetGender(g,btn){tlGender=g;document.querySelectorAll('#tl-gender-btns .spf-pick').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('tl-girls-sec').style.display=(g==='male')?'none':'block';}
+function tlPrep(key,val,btn){tlPrepData[key]=val;btn.parentElement.querySelectorAll('.tl-yn').forEach(b=>b.classList.remove('picked'));btn.classList.add('picked');}
+function tlSetSPF(v,btn){tlSPF=v;document.querySelectorAll('#tl-spf-btns .spf-pick').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function tlCalcDrive(){const sel=document.getElementById('tl-beach').value;if(!sel){alert('בחר חוף קודם');return;}const btn=document.getElementById('tl-gps-btn');btn.textContent='⏳ מחשב...';btn.disabled=true;if(!navigator.geolocation){btn.textContent='📍 חשב לפי מיקומי';btn.disabled=false;return;}navigator.geolocation.getCurrentPosition(pos=>{const[lat,lng]=sel.split('|');const R=6371,dLat=(parseFloat(lat)-pos.coords.latitude)*Math.PI/180,dLng=(parseFloat(lng)-pos.coords.longitude)*Math.PI/180;const a=Math.sin(dLat/2)**2+Math.cos(pos.coords.latitude*Math.PI/180)*Math.cos(parseFloat(lat)*Math.PI/180)*Math.sin(dLng/2)**2;const dist=R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));const mins=Math.round(dist/60*60+10);document.getElementById('tl-drive').value=mins;document.getElementById('tl-drive-res').textContent=mins+' דקות (~'+Math.round(dist)+' ק"מ)';btn.textContent='✅ חושב';btn.disabled=false;},()=>{btn.textContent='📍 חשב לפי מיקומי';btn.disabled=false;});}
+function tlGoPage(n){document.querySelectorAll('.tl-page').forEach(p=>p.classList.remove('active'));document.getElementById('tl-p'+n).classList.add('active');document.getElementById('tl-sub').textContent='שלב '+n+' מתוך 3';document.getElementById('tl-prog').style.width=(n/3*100)+'%';}
+function tlGetCreamInt(){if(tlUV<=2)return 120;if(tlUV<=5)return tlSPF>=50?120:90;if(tlUV<=7)return tlSPF>=50?90:60;if(tlUV<=10)return tlSPF>=50?60:45;return 30;}
+function tlGenerate(){
+  const sel=document.getElementById('tl-beach').value;if(!sel){alert('בחר חוף');return;}
+  const drive=parseInt(document.getElementById('tl-drive').value)||0;if(!drive){alert('הזן זמן נסיעה');return;}
+  const beachName=sel.split('|')[2]||'החוף',target=document.getElementById('tl-target').value||'12:00',homeTime=document.getElementById('tl-home').value||'20:00';
+  const creamInt=tlGetCreamInt(),spfRec=tlUV<=2?'SPF 15':tlUV<=5?'SPF 30':tlUV<=7?'SPF 50':'SPF 50+';
+  const totalPrep=Object.entries(tlPrepData).filter(([k])=>k!=='returnfood').reduce((s,[,v])=>s+v,0);
+  let steps=[],arriveBeach,departHome,leaveBeach;
+  if(tlPriority==='arrive'){
+    arriveBeach=target;departHome=addMins(target,-drive);
+    const wakeUp=addMins(departHome,-totalPrep);
+    leaveBeach=addMins(homeTime,-(drive+tlPrepData.returnfood+5));
+    let pt=wakeUp;
+    steps.push({time:pt,icon:'⏰',color:'gold',label:'קום! הגיע הזמן להתארגן',note:'שעת יקיצה מומלצת'});
+    if(tlPrepData.shower>0){steps.push({time:pt,icon:'🚿',color:'blue',label:'מקלחת',note:tlPrepData.shower+' דקות'});pt=addMins(pt,tlPrepData.shower);}
+    if(tlPrepData.hair>0){steps.push({time:pt,icon:'💇',color:'blue',label:'סידור שיער',note:tlPrepData.hair+' דקות'});pt=addMins(pt,tlPrepData.hair);}
+    if(tlPrepData.makeup>0){steps.push({time:pt,icon:'💄',color:'blue',label:'איפור',note:tlPrepData.makeup+' דקות'});pt=addMins(pt,tlPrepData.makeup);}
+    if(tlPrepData.bag>0){steps.push({time:pt,icon:'🎒',color:'blue',label:'ארוז תיק',note:tlPrepData.bag+' דקות'});pt=addMins(pt,tlPrepData.bag);}
+    if(tlPrepData.food>0){steps.push({time:pt,icon:'🍉',color:'blue',label:'הכן אוכל',note:tlPrepData.food+' דקות'});pt=addMins(pt,tlPrepData.food);}
+    steps.push({time:departHome,icon:'🚗',color:'blue',label:'צא מהבית!',note:'נסיעה '+drive+' דקות — '+beachName});
+    if(tlPrepData.fuel>0)steps.push({time:addMins(departHome,5),icon:'⛽',color:'blue',label:'מילוי דלק',note:''});
+    if(tlPrepData.ice>0)steps.push({time:addMins(departHome,10),icon:'🧊',color:'blue',label:'קנה קרח',note:'בדרך'});
+    if(tlPrepData.shopping>0)steps.push({time:addMins(departHome,15),icon:'🛒',color:'blue',label:'קניות',note:tlPrepData.shopping+' דקות'});
+    if(tlPrepData.pickup>0)steps.push({time:addMins(departHome,20),icon:'🚘',color:'blue',label:'אסוף נוסעים',note:''});
+  }else{
+    departHome=target;const wakeUp=addMins(target,-totalPrep);arriveBeach=addMins(target,drive);leaveBeach=addMins(homeTime,-(drive+tlPrepData.returnfood+5));
+    let pt=wakeUp;
+    steps.push({time:pt,icon:'⏰',color:'gold',label:'קום!',note:'שעת יקיצה מומלצת'});
+    if(tlPrepData.shower>0){steps.push({time:pt,icon:'🚿',color:'blue',label:'מקלחת',note:tlPrepData.shower+' דקות'});pt=addMins(pt,tlPrepData.shower);}
+    if(tlPrepData.hair>0){steps.push({time:pt,icon:'💇',color:'blue',label:'סידור שיער',note:tlPrepData.hair+' דקות'});pt=addMins(pt,tlPrepData.hair);}
+    if(tlPrepData.makeup>0){steps.push({time:pt,icon:'💄',color:'blue',label:'איפור',note:tlPrepData.makeup+' דקות'});pt=addMins(pt,tlPrepData.makeup);}
+    if(tlPrepData.bag>0){steps.push({time:pt,icon:'🎒',color:'blue',label:'ארוז תיק',note:tlPrepData.bag+' דקות'});pt=addMins(pt,tlPrepData.bag);}
+    steps.push({time:target,icon:'🚗',color:'blue',label:'צא מהבית!',note:'נסיעה '+drive+' דקות'});
+  }
+  steps.push({time:arriveBeach,icon:'🏖️',color:'gold',label:'הגעה ל'+beachName,note:'תהנו!'});
+  // Forever midday reminder
+  const midday = addMins(arriveBeach, Math.round(diffMins(arriveBeach,leaveBeach)/2));
+  if(diffMins(arriveBeach,leaveBeach) > 120) {
+    steps.push({time:midday,icon:'🌿',color:'green',label:'תזכורת מסגרת תזונה',note:'שתיית מים + גרציניה פלוס + נשנוש בריא'});
+  }
+  const ss=getSunset();
+  if(isDaylight(arriveBeach))steps.push({time:arriveBeach,icon:'🧴',color:'gold',label:'קרם ראשון — '+spfRec,note:'UV '+tlUV+' — כל '+creamInt+' דקות'});
+  let ct=addMins(arriveBeach,creamInt),cc=2;
+  while(diffMins(ct,leaveBeach)>0&&cc<=8){if(!isDaylight(ct)){steps.push({time:ss,icon:'🌅',color:'green',label:'שקיעה — אין צורך בקרם',note:''});break;}steps.push({time:ct,icon:'🧴',color:'gold',label:'קרם מריחה '+cc+' — '+spfRec,note:''});ct=addMins(ct,creamInt);cc++;}
+  steps.push({time:leaveBeach,icon:'⚠️',color:'red',label:'צא מהחוף עכשיו!',note:'כדי להגיע הביתה ב-'+homeTime});
+  if(tlPrepData.returnfood>0){const ft=addMins(leaveBeach,Math.round(drive/2));steps.push({time:ft,icon:'🍔',color:'blue',label:'עצירה לאוכל',note:tlPrepData.returnfood+' דקות'});}
+  steps.push({time:homeTime,icon:'🏠',color:'green',label:'הגעה הביתה!',note:'יום ים מושלם ✅'});
+  steps.sort((a,b)=>{const[ah,am]=a.time.split(':').map(Number),[bh,bm]=b.time.split(':').map(Number);return(ah*60+am)-(bh*60+bm);});
+  tlSteps=steps.map(s=>({...s,done:false}));
+  const bm=diffMins(arriveBeach,leaveBeach),bh=Math.floor(bm/60),bmin=bm%60;
+  document.getElementById('tl-output').innerHTML=`<div class="tl-sum"><h3>🏖️ ${beachName}</h3><p>⏱️ זמן בחוף: ${bh} שעות${bmin>0?' '+bmin+' דקות':''}<br>🧴 ${cc-1} מריחות ${spfRec} כל ${creamInt} דקות<br>🏠 חזרה: ${homeTime}</p></div>`+tlRenderSteps();
+  tlGoPage(4);
+}
+function tlRenderSteps(){return tlSteps.map((s,i)=>`<div class="tl-step ${s.done?'sdone':''}"><div class="tl-step-l"><div class="tl-ic ${s.color}" onclick="tlToggleDone(${i})">${s.done?'✅':s.icon}</div>${i<tlSteps.length-1?'<div class="tl-line"></div>':''}</div><div class="tl-step-r"><div class="tl-time">${s.time}</div><div class="tl-lbl">${s.label}</div>${s.note?'<div class="tl-note">'+s.note+'</div>':''}</div></div>`).join('');}
+function tlToggleDone(i){tlSteps[i].done=!tlSteps[i].done;const out=document.getElementById('tl-output');const sum=out.querySelector('.tl-sum');out.innerHTML=(sum?sum.outerHTML:'')+tlRenderSteps();}
+function tlApplyLate(){const d=parseInt(document.getElementById('late-mins').value)||0;if(!d){closeModal('late-modal');return;}const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();tlSteps.forEach(s=>{const[h,m]=s.time.split(':').map(Number),sm=h*60+m;if(!s.done&&sm>=nowMin-5){const t=sm+d,nh=Math.floor(t/60)%24,nm=t%60;s.time=String(nh).padStart(2,'0')+':'+String(nm).padStart(2,'0');}});closeModal('late-modal');document.getElementById('tl-output').innerHTML=`<div class="tl-sum" style="background:rgba(231,76,60,.1);border-color:rgba(231,76,60,.3)"><h3 style="color:#e74c3c">⏱️ עודכן! +${d} דקות</h3></div>`+tlRenderSteps();}
+function tlReset(){tlPrepData={shower:0,hair:0,makeup:0,bag:20,food:0,fuel:0,shopping:0,ice:0,pickup:0,returnfood:0};tlGoPage(1);}
+
+// EXPENSES
+let personalExpenses=[],friends=[],friendExpenses=[],expenseHistory=[],expCurrentSettle=null;
+function expMode(mode,btn){['personal','friends','history'].forEach(m=>document.getElementById('exp-'+m).style.display=m===mode?'block':'none');document.querySelectorAll('#s-expenses .tab-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');if(mode==='history')expRenderHistory();}
+function expUpdateBudget(){const budget=parseFloat(document.getElementById('exp-budget').value)||0,total=personalExpenses.reduce((s,e)=>s+e.amount,0),fb=document.getElementById('exp-budget-fb');if(!budget){fb.style.display='none';return;}fb.style.display='block';const diff=budget-total;if(diff>0){fb.className='budget-fb under';fb.innerHTML=`<div class="bf-em">✅</div><div class="bf-title">חסכת ${diff}₪!</div><div class="bf-sub">הוצאת ${total}₪ מתוך ${budget}₪</div>`;}else if(diff===0){fb.className='budget-fb exact';fb.innerHTML=`<div class="bf-em">🎯</div><div class="bf-title">בדיוק ביעד!</div><div class="bf-sub">הוצאת ${total}₪</div>`;}else{fb.className='budget-fb over';fb.innerHTML=`<div class="bf-em">⚠️</div><div class="bf-title">חרגת ב-${-diff}₪</div><div class="bf-sub">הוצאת ${total}₪ מתוך ${budget}₪</div>`;}}
+function expAdd(){const cat=document.getElementById('exp-cat').value,amt=parseFloat(document.getElementById('exp-amt').value);if(!amt||amt<=0)return;personalExpenses.push({cat,amount:amt});document.getElementById('exp-amt').value='';expRenderPersonal();expUpdateBudget();}
+function expRenderPersonal(){const list=document.getElementById('exp-list');list.innerHTML=personalExpenses.map((e,i)=>`<div class="exp-row"><span class="exp-cat">${e.cat}</span><span class="exp-amt">${e.amount}₪</span><span class="exp-del" onclick="expDel(${i})">✕</span></div>`).join('');const total=personalExpenses.reduce((s,e)=>s+e.amount,0);const tb=document.getElementById('exp-total-bar');tb.style.display=personalExpenses.length?'block':'none';tb.textContent=`💰 סה"כ: ${total}₪`;document.getElementById('exp-save-btn').style.display=personalExpenses.length?'block':'none';}
+function expDel(i){personalExpenses.splice(i,1);expRenderPersonal();expUpdateBudget();}
+function expAddFriend(){const inp=document.getElementById('friend-inp'),name=inp.value.trim();if(!name||friends.includes(name))return;friends.push(name);inp.value='';expRenderFriends();}
+function expRenderFriends(){const chips=document.getElementById('friends-chips');chips.innerHTML=friends.map(f=>`<div class="friend-chip">${f}<span class="fx" onclick="expRmFriend('${f}')"> ✕</span></div>`).join('');const payer=document.getElementById('friend-payer');payer.innerHTML=friends.map(f=>`<option>${f}</option>`).join('');document.getElementById('friend-exp-sec').style.display=friends.length?'block':'none';}
+function expRmFriend(n){friends=friends.filter(f=>f!==n);friendExpenses=friendExpenses.filter(e=>e.payer!==n);expRenderFriends();expRenderFriendExps();expCalcBalance();}
+function expAddFriendExp(){const payer=document.getElementById('friend-payer').value,cat=document.getElementById('friend-cat').value,amt=parseFloat(document.getElementById('friend-amt').value);if(!payer||!amt)return;friendExpenses.push({payer,cat,amount:amt});document.getElementById('friend-amt').value='';expRenderFriendExps();expCalcBalance();}
+function expRenderFriendExps(){document.getElementById('friend-exp-list').innerHTML=friendExpenses.map((e,i)=>`<div class="friend-exp-row"><div class="fer-top"><span class="fer-payer">${e.payer}</span><span class="fer-amt">${e.amount}₪</span></div><div class="fer-cat">${e.cat} <span style="float:left;cursor:pointer;opacity:.4" onclick="expRmFriendExp(${i})">✕</span></div></div>`).join('');}
+function expRmFriendExp(i){friendExpenses.splice(i,1);expRenderFriendExps();expCalcBalance();}
+function expCalcBalance(){
+  const fb=document.getElementById('friends-balance');
+  if(friends.length<2||!friendExpenses.length){fb.style.display='none';return;}
+  const totals={};friends.forEach(f=>totals[f]=0);let grand=0;
+  friendExpenses.forEach(e=>{totals[e.payer]=(totals[e.payer]||0)+e.amount;grand+=e.amount;});
+  const fair=grand/friends.length,bals=friends.map(f=>({name:f,diff:totals[f]-fair}));
+  const cred=bals.filter(b=>b.diff>0.5).sort((a,b)=>b.diff-a.diff),debt=bals.filter(b=>b.diff<-0.5).sort((a,b)=>a.diff-b.diff);
+  let sets=[],ci=0,di=0;const cl=[...cred.map(c=>({...c}))],dl=[...debt.map(d=>({...d}))];
+  while(ci<cl.length&&di<dl.length){const c=cl[ci],d=dl[di],amt=Math.min(c.diff,-d.diff);if(amt>0.5)sets.push({from:d.name,to:c.name,amount:Math.round(amt)});c.diff-=amt;d.diff+=amt;if(c.diff<0.5)ci++;if(d.diff>-0.5)di++;}
+  let html=`<div class="tl-sum" style="margin-top:12px"><h3>💸 סיכום</h3><p>סה"כ: ${grand}₪ | לכל אחד: ${fair.toFixed(0)}₪</p></div>`;
+  if(!sets.length)html+=`<div class="empty-state"><div class="es-icon">✅</div>הכל מאוזן!</div>`;
+  else sets.forEach(s=>{html+=`<div class="balance-card"><span class="bal-txt"><strong>${s.from}</strong> חייב ל<strong>${s.to}</strong></span><span class="bal-amt">${s.amount}₪</span><button class="bal-settle" onclick="expOpenSettle('${s.from}','${s.to}',${s.amount})">שלם</button></div>`;});
+  fb.style.display='block';fb.innerHTML=html;
+}
+function expOpenSettle(from,to,amount){expCurrentSettle={from,to,amount};document.getElementById('settle-title').textContent=`${from} → ${to}`;document.getElementById('settle-desc').textContent=`תשלום של ${amount}₪`;document.getElementById('bank-area').style.display='none';openModal('settle-modal');}
+function settleVia(m){alert(`סומן כשולם דרך ${m} ✅`);closeModal('settle-modal');}
+function settleViaWA(){if(!expCurrentSettle)return;const{from,to,amount}=expCurrentSettle;window.open(`https://wa.me/?text=${encodeURIComponent('שלום! 👋\nאתה אמור לקבל '+amount+'₪ מ'+from+' (יום הים שלנו 🏖️)')}`, '_blank');closeModal('settle-modal');}
+function openBankTransfer(){document.getElementById('bank-area').style.display='block';}
+function goToBank(){window.open(document.getElementById('bank-sel').value,'_blank');closeModal('settle-modal');}
+function expSaveDay(){const total=personalExpenses.reduce((s,e)=>s+e.amount,0),budget=parseFloat(document.getElementById('exp-budget').value)||null,beach=prompt('איזה חוף/מקום?')||'יום ים';expenseHistory.push({date:new Date().toLocaleDateString('he-IL'),beach,total,budget,expenses:[...personalExpenses]});personalExpenses=[];document.getElementById('exp-budget').value='';expRenderPersonal();expUpdateBudget();alert('נשמר! 💾');}
+function expRenderHistory(){const empty=document.getElementById('hist-empty'),content=document.getElementById('hist-content');if(!expenseHistory.length){empty.style.display='block';content.innerHTML='';return;}empty.style.display='none';const byB={};expenseHistory.forEach(h=>{if(!byB[h.beach])byB[h.beach]=[];byB[h.beach].push(h.total);});let html='';const names=Object.keys(byB);if(names.length>=2){const avgs=names.map(b=>({name:b,avg:byB[b].reduce((s,v)=>s+v,0)/byB[b].length})).sort((a,b)=>a.avg-b.avg);html+=`<div class="insight-card">💡 <strong>${avgs[0].name}</strong> הכי חסכוני (${avgs[0].avg.toFixed(0)}₪ בממוצע)</div>`;}expenseHistory.slice().reverse().forEach(h=>{const note=h.budget?(h.total<=h.budget?' ✅':' ⚠️'):'';html+=`<div class="hist-day"><div class="hist-top"><span class="hist-name">📍 ${h.beach} — ${h.date}</span><span class="hist-total">${h.total}₪${note}</span></div><div class="hist-detail">${h.expenses.map(e=>e.cat+': '+e.amount+'₪').join(' • ')}</div></div>`;});content.innerHTML=html;}
+function expAddRest(name){const amt=prompt(`כמה הוצאת ב${name}? (₪)`);if(!amt||isNaN(amt))return;personalExpenses.push({cat:'🍔 '+name,amount:parseFloat(amt)});alert('נוסף להוצאות ✅');}
+
+// EMERGENCY
+const EM_DATA={
+  drowning:{color:'red',icon:'🌊',title:'חשד לטביעה',steps:[{n:'1',t:'צעק "מציל!" בקול רם'},{n:'2',t:'התקשר 101 מיד'},{n:'3',t:'אל תיכנס למים אם לא מאומן'},{n:'4',t:'זרוק חפץ צף לכיוון הטובע'}]},
+  lost:{color:'red',icon:'👶',title:'ילד הלך לאיבוד',steps:[{n:'1',t:'אל תיכנס לפניקה'},{n:'2',t:'פנה מיד למציל הקרוב'},{n:'3',t:'בדוק קו המים ואזור המשחקים'},{n:'4',t:'5 דקות ולא נמצא — 100'}]},
+  heat:{color:'orange',icon:'☀️',title:'מכת חום',steps:[{n:'⚠️',t:'עור חם, בלבול, סחרחורת, בחילה'},{n:'1',t:'העבר לצל מיד'},{n:'2',t:'קרר במים ומגבת'},{n:'3',t:'תן לשתות מים לאט'},{n:'4',t:'ללא שיפור ב-5 דקות — 101'}]},
+  injury:{color:'orange',icon:'🩹',title:'פציעה',steps:[{n:'חתך',t:'שטוף במים נקיים, לחץ עם בד נקי'},{n:'שבר',t:'אל תזיז — קבע ופנה לעזרה'},{n:'כוויה',t:'מים קרים 10-20 דקות, לא קרח'}]},
+  jellyfish:{color:'orange',icon:'🪼',title:'מדוזה / קיפוד ים',steps:[{n:'מדוזה',t:'שטוף מי ים — לא מתוקים!'},{n:'מדוזה',t:'הסר שאריות עם כרטיס'},{n:'קיפוד',t:'אל תוציא קוצים — פנה לעזרה'},{n:'⚠️',t:'קושי בנשימה → 101 מיד'}]},
+  current:{color:'red',icon:'🌀',title:'נתקעת בזרם',steps:[{n:'1',t:'אל תשחה נגד הזרם'},{n:'2',t:'שחה לצד — מקביל לחוף'},{n:'3',t:'קרא לעזרה — הניפו ידיים'}]},
+  sunburn:{color:'blue',icon:'🔥',title:'כוויית שמש',steps:[{n:'1',t:'צא מהשמש לצל מיד'},{n:'2',t:'מים קרים זורמים 10-20 דקות'},{n:'3',t:'שתו הרבה מים'}]},
+  cut:{color:'blue',icon:'🔪',title:'חתך / זכוכית',steps:[{n:'1',t:'שטוף במים נקיים דקה'},{n:'2',t:'לחץ לעצירת דימום'},{n:'3',t:'דימום שלא נעצר — 101'}]}
+};
+function emShow(type){const d=EM_DATA[type];if(!d)return;document.getElementById('em-detail').style.display='block';document.getElementById('em-detail').innerHTML=`<div class="em-detail ${d.color}"><div class="em-d-title">${d.icon} ${d.title}</div>${d.steps.map(s=>`<div class="em-d-step"><div class="em-d-n">${s.n}</div><div>${s.t}</div></div>`).join('')}</div>`;document.getElementById('em-detail').scrollIntoView({behavior:'smooth'});}
+const HOSPITALS={center:[{name:'איכילוב — תל אביב',tel:'03-6974444'},{name:'שיבא — תל השומר',tel:'03-5302222'},{name:'בילינסון — פתח תקווה',tel:'03-9376666'},{name:'לניאדו — נתניה',tel:'09-8607000'}],north:[{name:'רמבם — חיפה',tel:'04-7772111'},{name:'פוריה — טבריה',tel:'04-6652211'}],south:[{name:'ברזילי — אשקלון',tel:'08-6745445'},{name:'סורוקה — באר שבע',tel:'08-6400111'}],eilat:[{name:'יוספטל — אילת',tel:'08-6358011'}]};
+function emHospitals(region,btn){document.querySelectorAll('#s-emergency .tab-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('em-hospitals').innerHTML=(HOSPITALS[region]||[]).map(h=>`<div class="hosp-row"><span class="hosp-name">🏥 ${h.name}</span><a href="tel:${h.tel}" class="hosp-tel">${h.tel}</a></div>`).join('');}
+
+// RESTAURANTS
+const RESTS=[
+  {name:'אנטרקוט — גורדון',beach:'חוף גורדון',rating:4.5,kosher:false,kids:true,beachSvc:false,lat:32.087,lng:34.768,img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=75',tags:['בשרי']},
+  {name:'מסעדת הים — הרצליה',beach:'חוף הרצליה',rating:4.3,kosher:true,kids:true,beachSvc:true,lat:32.164,lng:34.800,img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75',tags:['כשר','דגים']},
+  {name:'בר הים — נהריה',beach:'חוף נהריה',rating:4.1,kosher:false,kids:true,beachSvc:true,lat:33.005,lng:35.095,img:'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=600&q=75',tags:['ברביקיו']},
+  {name:'שניצל — אילת',beach:'חוף אלמוג',rating:4.4,kosher:true,kids:true,beachSvc:false,lat:29.542,lng:34.948,img:'https://images.unsplash.com/photo-1520942702018-0862200e6873?w=600&q=75',tags:['כשר','משפחתי']},
+];
+let restFilterMode='all';
+function restFilter(f,btn){restFilterMode=f;document.querySelectorAll('#rest-filter-tabs .tab-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');renderRest();}
+function renderRest(){let items=RESTS;if(restFilterMode==='kosher')items=items.filter(r=>r.kosher);if(restFilterMode==='kids')items=items.filter(r=>r.kids);if(restFilterMode==='beach')items=items.filter(r=>r.beachSvc);const list=document.getElementById('rest-list');list.innerHTML=items.map(r=>`<div class="rest-card"><img src="${r.img}" alt="" loading="lazy"><div class="rest-body"><div class="rest-top"><div class="rest-name">${r.name}</div><div class="rest-rating">⭐ ${r.rating}</div></div><div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:7px">📍 ${r.beach}</div><div class="tag-row">${r.kosher?'<span class="tag green">✡️ כשר</span>':''}${r.kids?'<span class="tag">👶 ילדים</span>':''}${r.beachSvc?'<span class="tag blue">🏖️ שירות לחוף</span>':''}${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="rest-nav"><a class="rest-nb nav" href="https://waze.com/ul?ll=${r.lat},${r.lng}&navigate=yes" target="_blank">🗺️ נווט</a><button class="rest-nb exp" onclick="expAddRest('${r.name}')">💰 הוצאות</button></div></div></div>`).join('');}
+
+// COMMUNITY
+let commCondition='שקט 🟢',commWALink='';
+function commSetCond(c,btn){commCondition=c;document.querySelectorAll('.cond-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function commShare(p){const beach=document.getElementById('comm-beach').value,msg=`🌊 דיווח מצב ים — ${beach}\nמצב: ${commCondition}\nשעה: ${new Date().toLocaleTimeString('he-IL')}\n\nBeachToGo 🏖️`;if(p==='wa')window.open(commWALink?commWALink:`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');else window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(msg)}`,'_blank');}
+function commOpenWA(){if(commWALink)window.open(commWALink,'_blank');else alert('קישור וואטסאפ לא הוגדר — הגדר בניהול');}
+
+// BEACH FUN
+const FUN={kids:[{i:'🏰',t:'בניית טירת חול',d:'בנו ביחד עם דלי, מגרפה ומים'},{i:'🐚',t:'ציד צדפות',d:'חפשו צדפות ייחודיות לאורך קו המים'},{i:'🌊',t:'קפיצה לגלים',d:'מי מחזיק הכי טוב? משחק גלים'},{i:'🪣',t:'הסתרת אוצר',d:'אחד קובר, השאר מחפשים'}],teens:[{i:'🏸',t:'מטקות',d:'אתגר — מי מחזיק הכי הרבה'},{i:'🥏',t:'פריזבי',d:'קלאסיקה. גם אולטימט עם קבוצות'},{i:'🎲',t:'שש-בש',d:'בצל עם שתייה קרה'},{i:'🏐',t:'כדורעף חוף',d:'2v2 — חפשו רשת בחוף'}],couples:[{i:'🌅',t:'שקיעה רומנטית',d:'בחרו חוף עם פנים מערב'},{i:'🧺',t:'פיקניק על החוף',d:'יין, גבינות — יותר טוב ממסעדה'},{i:'📸',t:'צילום יצירתי',d:'שיקופים במים, שקיעה'}],sports:[{i:'🏄',t:'גלישת גלים',d:'חוף הצוק, פלמחים — גלים מתאימים'},{i:'🪂',t:'קייטסרף',d:'שיעורים בחוף הצוק'},{i:'🚣',t:'סאפ / קיאק',d:'השכרה ברוב החופים'},{i:'🏊',t:'שחיית מרחקים',d:'שחו מקביל לחוף'}]};
+function funShow(cat,btn){document.querySelectorAll('#fun-tabs .tab-btn').forEach(t=>t.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('fun-list').innerHTML=(FUN[cat]||[]).map(f=>`<div class="fun-item"><div class="fun-ic">${f.i}</div><div><div class="fun-title">${f.t}</div><div class="fun-desc">${f.d}</div></div></div>`).join('');}
+
+// TIP OF DAY
+const TIPS=[{e:'🧴',t:'מרחו קרם הגנה 20 דקות לפני היציאה לשמש',c:'בריאות'},{e:'💧',t:'שתו כוס מים לפני שצמאים',c:'בריאות'},{e:'🎒',t:'שימו פריטים רטובים בשקיות ניילון',c:'ציוד'},{e:'⛱️',t:'הגיעו מוקדם בשישי-שבת — חניה מתמלאת מהר',c:'תכנון'},{e:'🧊',t:'בקבוק מים קפוא בצידנית ישמור קר יותר',c:'ציוד'},{e:'🌅',t:'הים הכי שקט לפני 9 בבוקר',c:'ים'},{e:'🚗',t:'בדקו מראש אם החניה בתשלום',c:'תכנון'},{e:'📱',t:'שמרו את הטלפון בשקית ניילון',c:'ציוד'},{e:'👟',t:'נעלי מים מונעות פציעות מקיפודים וזכוכית',c:'בטיחות'},{e:'🌊',t:'שחו תמיד מקביל לחוף',c:'בטיחות'},{e:'🍉',t:'פירות הם חטיף ים מושלם',c:'אוכל'},{e:'🌙',t:'אחרי שקיעה — אין צורך בקרם הגנה',c:'בריאות'}];
+function initTip(){const d=Math.floor((new Date()-(new Date(new Date().getFullYear(),0,0)))/86400000),tip=TIPS[d%TIPS.length];document.getElementById('tip-main-em').textContent=tip.e;document.getElementById('tip-main-txt').textContent=tip.t;document.getElementById('tip-main-cat').textContent='קטגוריה: '+tip.c;document.getElementById('tip-date-lbl').textContent=new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'});document.getElementById('home-tip').innerHTML=`<strong>טיפ היום:</strong> ${tip.t}`;const others=TIPS.filter((_,i)=>i!==d%TIPS.length).slice(0,5);document.getElementById('more-tips').innerHTML=others.map(t=>`<div class="tip-row"><span>${t.e}</span><span>${t.t}</span></div>`).join('');}
+
+// SHARE
+function shareChecklist(){const done=Object.keys(clChecked).length;window.open(`https://wa.me/?text=${encodeURIComponent('✅ צ\'ק ליסט לים — '+done+' פריטים מוכנים! 🏖️\nBeachToGo — מתכנן. מנווט. נהנה.')}`, '_blank');}
+function shareTimeline(){window.open(`https://wa.me/?text=${encodeURIComponent('⏰ יום הים מתוכנן! 🏖️\nBeachToGo — מתכנן. מנווט. נהנה.')}`, '_blank');}
+function shareBeach(){const msg='בואו לחוף איתנו! 🏖️';if(navigator.share)navigator.share({title:'BeachToGo',text:msg});else window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');}
+function shareApp(){const msg='🏖️ BeachToGo — האפליקציה שתגרום לך לגלוש מהספה לים!\nמתכנן. מנווט. נהנה.';if(navigator.share)navigator.share({title:'BeachToGo',text:msg});else window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');}
+
+// ADMIN
+let adminSponsors=[];
+function admCheck(){if(document.getElementById('adm-pass').value==='0077'){document.getElementById('adm-lock').style.display='none';document.getElementById('adm-content').style.display='block';admRenderSponsors();}else alert('סיסמה שגויה');}
+function admRenderSponsors(){document.getElementById('adm-sponsors').innerHTML=adminSponsors.length?adminSponsors.map((s,i)=>`<div class="adm-sp-row"><span class="adm-sp-name">🤝 ${s.name}</span><span class="adm-sp-del" onclick="admDelSponsor(${i})">✕</span></div>`).join(''):'<div style="font-size:.82rem;color:rgba(255,255,255,.3);padding:8px 0">אין חסויות</div>';}
+function admDelSponsor(i){adminSponsors.splice(i,1);admRenderSponsors();}
+function admSaveSponsor(){const s={name:document.getElementById('sp-name').value,desc:document.getElementById('sp-desc').value,phone:document.getElementById('sp-phone').value,wa:document.getElementById('sp-wa').value,site:document.getElementById('sp-site').value};if(!s.name)return;adminSponsors.push(s);closeModal('adm-sponsor-modal');admRenderSponsors();}
+function admSaveLinks(){commWALink=document.getElementById('adm-wa').value;alert('נשמר! ✅');}
+function admReset(){personalExpenses=[];friendExpenses=[];friends=[];expenseHistory=[];adminSponsors=[];clChecked={};clIrr={};alert('אופס — אפסנו הכל');}
+
+
+function renderTabs(containerId, tabs, activeIndex) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '';
+  tabs.forEach(function(t, i) {
+    const btn = document.createElement('div');
+    btn.className = 'tab-btn' + (i === activeIndex ? ' active' : '');
+    btn.textContent = t.label;
+    btn.addEventListener('click', t.cb);
+    el.appendChild(btn);
+  });
+  // In RTL, scroll to rightmost position (start of RTL flow)
+  setTimeout(function(){
+    el.scrollLeft = -el.scrollWidth; // for RTL browsers
+    el.scrollLeft = el.scrollWidth;  // fallback
+    el.scrollLeft = 0;
+  }, 10);
+}
+
+function initBeachTabs() {
+  renderTabs('beach-cat-tabs', [
+    {label:'🌊 חופי ים', cb:function(){switchBeachCat('beaches',this);}},
+    {label:'💧 כנרת', cb:function(){switchBeachCat('kinneret',this);}},
+    {label:'🧂 ים המלח', cb:function(){switchBeachCat('deadsea',this);}},
+    {label:'🐠 אילת', cb:function(){switchBeachCat('eilat_sea',this);}},
+  ], 0);
+  renderTabs('beach-area-bar', [
+    {label:'הכל', cb:function(){filterArea('all',this);}},
+    {label:'🏔️ צפון', cb:function(){filterArea('north',this);}},
+    {label:'🏙️ מרכז', cb:function(){filterArea('center',this);}},
+    {label:'🌅 דרום', cb:function(){filterArea('south',this);}},
+  ], 0);
+}
+
+function initWaterTabs() {
+  renderTabs('water-cat-tabs', [
+    {label:'💧 מעיינות', cb:function(){switchWaterCat('springs',this);}},
+    {label:'🎢 פארקי מים', cb:function(){switchWaterCat('parks',this);}},
+    {label:'🤿 אטרקציות', cb:function(){switchWaterCat('attractions',this);}},
+  ], 0);
+}
+
+
+
+function initExpTabs() {
+  renderTabs('exp-tabs', [
+    {label:'🧍 אישי', cb:function(){expMode('personal',this);}},
+    {label:'👥 חברים', cb:function(){expMode('friends',this);}},
+    {label:'📊 היסטוריה', cb:function(){expMode('history',this);}},
+  ], 0);
+}
+
+function initRestTabs() {
+  renderTabs('rest-filter-tabs', [
+    {label:'הכל', cb:function(){restFilter('all',this);}},
+    {label:'✡️ כשר', cb:function(){restFilter('kosher',this);}},
+    {label:'👶 ילדים', cb:function(){restFilter('kids',this);}},
+    {label:'🏖️ שירות לחוף', cb:function(){restFilter('beach',this);}},
+  ], 0);
+}
+
+function initFunTabs() {
+  renderTabs('fun-tabs', [
+    {label:'👶 ילדים', cb:function(){funShow('kids',this);}},
+    {label:'🧑 מתבגרים', cb:function(){funShow('teens',this);}},
+    {label:'💑 זוגות', cb:function(){funShow('couples',this);}},
+    {label:'🏄 ספורט', cb:function(){funShow('sports',this);}},
+  ], 0);
+}
+
+
+
+
+// EDIT & SHARE
+let editFiles = [];
+function editLoadFiles(input) {
+  editFiles = Array.from(input.files);
+  const preview = document.getElementById('edit-preview');
+  preview.innerHTML = editFiles.map((f,i) => {
+    const url = URL.createObjectURL(f);
+    if(f.type.startsWith('video')) return `<video src="${url}" class="edit-thumb" muted></video>`;
+    return `<img src="${url}" class="edit-thumb" alt="">`;
+  }).join('');
+}
+
+function editLoadMusic(input) {
+  const file = input.files[0]; if(!file) return;
+  const url = URL.createObjectURL(file);
+  document.getElementById('edit-audio').src = url;
+  document.getElementById('edit-music-player').style.display = 'block';
+}
+
+function addCaption(text) {
+  const ta = document.getElementById('edit-caption');
+  ta.value = text;
+}
+
+function getEditText() {
+  return document.getElementById('edit-caption').value || 'יום ים מושלם! 🏖️ BeachToGo';
+}
+
+function shareToFB() {
+  const text = getEditText();
+  if(editFiles.length > 0) {
+    alert('📘 פייסבוק\n\nהתמונות שלך ייפתחו לשיתוף.\nהכיתוב הועתק ללוח — הדבק בפייסבוק!');
+    navigator.clipboard?.writeText(text);
+  }
+  window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(text)}`, '_blank');
+}
+
+function shareToIG() {
+  const text = getEditText();
+  navigator.clipboard?.writeText(text);
+  alert('📸 אינסטגרם\n\nהכיתוב הועתק ללוח!\nפתח את אינסטגרם ← צור פוסט חדש ← הדבק.');
+  window.open('instagram://camera', '_blank');
+  setTimeout(() => window.open('https://www.instagram.com', '_blank'), 1000);
+}
+
+function shareToTT() {
+  const text = getEditText();
+  navigator.clipboard?.writeText(text);
+  alert('🎵 טיקטוק\n\nהכיתוב הועתק ללוח!\nפתח את טיקטוק ← יצירה חדשה ← הדבק.');
+  window.open('tiktok://', '_blank');
+  setTimeout(() => window.open('https://www.tiktok.com', '_blank'), 1000);
+}
+
+function shareToWA() {
+  const text = getEditText();
+  if(navigator.share && editFiles.length > 0) {
+    navigator.share({title:'BeachToGo 🏖️', text, files: editFiles.slice(0,1)}).catch(()=>{
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    });
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }
+}
+
+function openInstagramReels() { window.open('instagram://reels', '_blank'); setTimeout(()=>window.open('https://www.instagram.com/reels','_blank'),1000); }
+function openTikTok() { window.open('tiktok://', '_blank'); setTimeout(()=>window.open('https://www.tiktok.com','_blank'),1000); }
+
+// MUSIC
+let ytPlaylists = [
+  {title:'🏖️ ויבס ים', sub:'מוזיקה לחופים', url:'https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG'},
+  {title:'🌅 סאנסט צ׳ילים', sub:'להרגעה בשקיעה', url:'https://www.youtube.com/playlist?list=PLBIwd6RHAoqDSRhTHGhxLwBKMbQ3vA_zO'},
+  {title:'🎵 להיטים ישראלים', sub:'הכי שמנו', url:'https://www.youtube.com/playlist?list=PLbpi6ZahtOH6Ar_3GPy3workc3l7MoGOJ'},
+  {title:'🔥 אנרגיה גבוהה', sub:'ספורט ובילוי', url:'https://www.youtube.com/playlist?list=PLDIoUOhQQPlXr63I_vwF06Dq_om0KTDFR'},
+  {title:'🎸 רוק ישראלי', sub:'קלאסיקות', url:'https://www.youtube.com/playlist?list=PLF2KJ6nrk_m65Mhf5mQT3OmzLfO53N5ME'},
+];
+
+let spPlaylists = [
+  {title:'🏖️ Beach Vibes Israel', sub:'Spotify — ויבס ים', url:'https://open.spotify.com/playlist/37i9dQZF1DX4o1oenSJRJd'},
+  {title:'☀️ Summer Hits Israel', sub:'Spotify — להיטי קיץ', url:'https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC'},
+  {title:'🎵 ישראלי בשמש', sub:'Spotify — ישראלי', url:'https://open.spotify.com/playlist/37i9dQZF1DX4UtSsGT1Sk1'},
+  {title:'🌊 Chill Waves', sub:'Spotify — ריגועים', url:'https://open.spotify.com/playlist/37i9dQZF1DWXe9gFZP0gtP'},
+];
+
+function initMusicTabs() {
+  renderTabs('music-tabs', [
+    {label:'📻 רדיו', cb:function(){switchMusic('radio',this);}},
+    {label:'▶️ YouTube', cb:function(){switchMusic('youtube',this);}},
+    {label:'🎧 Spotify', cb:function(){switchMusic('spotify',this);}},
+    {label:'📱 מהטלפון', cb:function(){switchMusic('phone',this);}},
+  ], 0);
+}
+
+function switchMusic(tab, btn) {
+  ['radio','youtube','spotify','phone'].forEach(t => document.getElementById('music-'+t).style.display = t===tab?'block':'none');
+  document.querySelectorAll('#music-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(tab==='youtube') renderYT();
+  if(tab==='spotify') renderSP();
+}
+
+function renderYT() {
+  document.getElementById('yt-list').innerHTML = ytPlaylists.map(p =>
+    `<div class="music-card" onclick="window.open('${p.url}','_blank')">
+      <div class="music-card-icon" style="background:linear-gradient(135deg,#e74c3c,#c0392b)">▶️</div>
+      <div class="music-card-info"><div class="music-card-title">${p.title}</div><div class="music-card-sub">${p.sub}</div></div>
+      <div class="music-play">▶</div>
+    </div>`
+  ).join('');
+}
+
+function renderSP() {
+  document.getElementById('sp-list').innerHTML = spPlaylists.map(p =>
+    `<div class="music-card" onclick="window.open('${p.url}','_blank')">
+      <div class="music-card-icon" style="background:linear-gradient(135deg,#1DB954,#17a349)">🎧</div>
+      <div class="music-card-info"><div class="music-card-title">${p.title}</div><div class="music-card-sub">${p.sub}</div></div>
+      <div class="music-play">▶</div>
+    </div>`
+  ).join('');
+}
+
+function openPhoneMusic() {
+  window.location.href = 'music://';
+  setTimeout(() => {
+    if(confirm('לא נמצא נגן מוזיקה. לפתוח YouTube במקום?')) {
+      window.open('https://www.youtube.com', '_blank');
+    }
+  }, 1500);
+}
+
+function playLocalMusic(input) {
+  const file = input.files[0]; if(!file) return;
+  const url = URL.createObjectURL(file);
+  const player = document.getElementById('audio-player');
+  player.src = url;
+  document.getElementById('local-player').style.display = 'block';
+  player.play();
+}
+
+
+// FOREVER LIVING
+function clForeverReminder() {
+  const msg = encodeURIComponent('⏰ תזכורת מסגרת תזונה יומית 🌿\n\n✅ מנת אלוורה\n✅ גרציניה פלוס\n✅ בי פולן\n✅ שייק חלבון\n✅ 8 כוסות מים\n\nשמור על המסגרת גם ביום ים! 💪\nBeachToGo 🏖️');
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+function clForeverInfo() {
+  openModal('forever-modal');
+}
+
+function clForeverBuy(product) {
+  const msgs = {
+    aloe: 'שלום! אני מעוניין במנת האלוורה היומית של פוראבר 🌱',
+    garcinia: 'שלום! אני מעוניין בגרציניה פלוס של פוראבר 💊',
+    pollen: 'שלום! אני מעוניין בבי פולן של פוראבר 🌸',
+    shake: 'שלום! אני מעוניין בשייק החלבון של פוראבר 🥤',
+    all: 'שלום! אני מעוניין לשמוע על מסגרת התזונה היומית של פוראבר 🌿'
+  };
+  window.open('https://wa.me/?text=' + encodeURIComponent(msgs[product] || msgs.all), '_blank');
+}
+
+// WATER SCREEN
+let waterCat = 'springs';
+function switchWaterCat(cat, btn) {
+  waterCat = cat;
+  initWaterTabs();
+  // re-highlight active
+  setTimeout(() => {
+    document.querySelectorAll('#water-cat-tabs .tab-btn').forEach((b,i) => {
+      const cats = ['springs','parks','attractions'];
+      b.classList.toggle('active', cats[i] === cat);
+    });
+  }, 10);
+  renderWater();
+}
+
+function renderWater() {
+  const items = BEACHES[waterCat] || [];
+  const list = document.getElementById('water-list');
+  if (!list) return;
+  if (!items.length) { list.innerHTML = '<div class="empty-state"><div class="es-icon">🔍</div>לא נמצאו תוצאות</div>'; return; }
+  list.innerHTML = items.map(item => {
+    if (waterCat === 'springs') return `<div class="beach-card">
+      <img src="${item.img}" alt="" loading="lazy">
+      <div class="beach-card-body">
+        <div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div>
+        <div class="tag-row"><span class="tag blue">🥾 ${item.hike}</span><span class="tag ${item.diff==='קל'?'green':'red'}">${item.diff}</span><span class="tag">🌡️ ${item.temp}</span></div>
+        <div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a><a class="nav-btn google" href="https://maps.google.com/?q=${item.lat},${item.lng}" target="_blank">📍 Google</a></div>
+      </div>
+    </div>`;
+    if (waterCat === 'parks') return `<div class="beach-card">
+      <img src="${item.img}" alt="" loading="lazy">
+      <div class="beach-card-body">
+        <div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div>
+        <div class="tag-row"><span class="tag gold">💰 ${item.price.split(',')[0]}</span><span class="tag blue">🕐 ${item.hours}</span>${item.access?'<span class="tag blue">♿</span>':''}</div>
+        <div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a></div>
+      </div>
+    </div>`;
+    return `<div class="beach-card">
+      <img src="${item.img}" alt="" loading="lazy">
+      <div class="beach-card-body">
+        <div class="beach-card-top"><div class="beach-card-name">${item.name}</div><span class="tag gold">⭐ ${item.rating}</span></div>
+        <div class="tag-row"><span class="tag blue">${item.type}</span><span class="tag gold">💰 ${item.price}</span></div>
+        <div class="nav-btns"><a class="nav-btn waze" href="https://waze.com/ul?ll=${item.lat},${item.lng}&navigate=yes" target="_blank">🗺️ Waze</a></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// INIT
+initTip();
+clRenderTabs();
+</script>
+</body>
+</html>
